@@ -1,22 +1,17 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
-import React from "react"
+import React, { useState } from "react"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
+import { AppBar, Toolbar } from "@material-ui/core"
+
+const Header = () => {
+  const [isAppBarOpen, setAppBarOpen] = useState(false)
+
+  const appBarController = isAppBarOpen ? (
+    <header>Here</header>
+  ) : (
+    <AppBar position="static">
+      <Toolbar>
         <Link
           to="/"
           style={{
@@ -24,12 +19,14 @@ const Header = ({ siteTitle }) => (
             textDecoration: `none`,
           }}
         >
-          {siteTitle}
+          Logo1
         </Link>
-      </h1>
-    </div>
-  </header>
-)
+      </Toolbar>
+    </AppBar>
+  )
+
+  return appBarController
+}
 
 Header.propTypes = {
   siteTitle: PropTypes.string,

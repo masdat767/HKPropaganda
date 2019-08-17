@@ -1,21 +1,35 @@
 import React from "react"
 import { Link } from "gatsby"
+import { TextField } from "@material-ui/core"
 
-import Layout from "../components/layout"
-import Image from "../components/image"
-import SEO from "../components/seo"
+import { Banner, HorizotalList } from "./landing"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+import styles from "./landing.css"
+
+import { Layout, Image, SEO } from "../components"
+
+const IndexPage = () => {
+  const banner = () => <Banner />
+
+  return (
+    <Layout banner={banner()}>
+      <SEO title="Home" />
+      <div style={{
+        marginTop: 24,
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gridGap: 24
+      }}>
+        <HorizotalList />
+        <HorizotalList />
+        <HorizotalList />
+      </div>
+    </Layout>
+  )
+}
+
+{
+  /* <Link to="/page-2/">Go to page 2</Link> */
+}
 
 export default IndexPage
