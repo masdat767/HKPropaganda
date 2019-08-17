@@ -1,4 +1,5 @@
-import Banner from "./Banner.js"
-import HorizotalList from "./HorizotalList.js"
+import Banner from "./Banner"
+import HorizotalList from "./HorizotalList"
+import InfiniteScroll from "./InfiniteScroll"
 
-export { Banner, HorizotalList }
+export { Banner, HorizotalList, InfiniteScroll }

@@ -54,6 +54,20 @@ const Image = ({ className, style, imgSrc }) => {
           }
         }
       }
+      propaganda4: file(relativePath: { eq: "propaganda4.jpg" }) {
+        childImageSharp {
+          fluid(maxWidth: 500, quality: 100) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      propaganda5: file(relativePath: { eq: "propaganda5.jpg" }) {
+        childImageSharp {
+          fluid(maxWidth: 500, quality: 100) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
     }
   `)
 
