@@ -71,8 +71,6 @@ const Image = ({ className, style, imgSrc }) => {
     }
   `)
 
-  console.log(data)
-
   const loadImageFluid = _.get(
     data,
     `${imgSrc}.childImageSharp.fluid`,

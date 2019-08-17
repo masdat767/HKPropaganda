@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import { Link } from "gatsby"
 import { TextField } from "@material-ui/core"
 
@@ -8,10 +8,16 @@ import styles from "./landing.css"
 
 import { Layout, Image, SEO } from "../components"
 
-const IndexPage = () => {
-  const banner = () => <Banner />
+const newList = [
+  "propaganda1",
+  "propaganda2",
+  "propaganda3",
+  "propaganda4",
+  "propaganda5"
+]
 
-  const demoInfinitScroll = [
+const IndexPage = () => {
+  const [demoInfinitScroll, setDemo] = useState([
     "propaganda2",
     "propaganda1",
     "propaganda3",
@@ -21,12 +27,21 @@ const IndexPage = () => {
     "propaganda1",
     "propaganda3",
     "propaganda5",
-  ]
+  ]);
+  const banner = () => <Banner />
+
+  const updateScroll = () => {
+    const promise = new Promise((resolve) => {
+      setTimeout(() => {
+        setDemo((prevState) => prevState.concat(newList))
+      }, 1500)
+    });
+  }
 
   return (
     <Layout banner={banner()}>
       <SEO title="Home" />
-      <InfiniteScroll picList={demoInfinitScroll} />
+      <InfiniteScroll picList={demoInfinitScroll} updateScroll={updateScroll}/>
     </Layout>
   )
 }
