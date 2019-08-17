@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles"
 import { TextField, InputAdornment } from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
 
-import { Image } from "../../components"
+import { Image, Tag } from "../../components"
 
 import "./Banner.module.css"
 
@@ -18,6 +18,19 @@ const Banner = () => {
       },
     },
   })(TextField)
+
+  const tagData = [{
+    "tagUrl": "abc",
+    "tagText": "abc",
+  },
+  {
+    "tagUrl": "222",
+    "tagText": "222222222",
+  },
+  {
+    "tagUrl": "five-elements",
+    "tagText": "五大訴求",
+  }];
 
   return (
     <>
@@ -78,6 +91,28 @@ const Banner = () => {
             margin="normal"
             variant="outlined"
           />
+
+          <div
+            style={{
+              width: `50%`,
+              textAlign: `left`,
+            }}
+          >
+            <span
+              style={{
+                paddingRight: `4px`,
+                fontSize: `0.8rem`,
+                textShadow: `0px 1px 2px #333`,
+              }}
+            >
+              Trending Search:
+            </span>
+            {
+              tagData &&
+              tagData
+              .map((item) => <Tag className="atag" tagUrl={item.tagUrl} tagText={item.tagText} />)
+            }
+          </div>
         </div>
         <div
           style={{
