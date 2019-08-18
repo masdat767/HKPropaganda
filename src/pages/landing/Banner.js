@@ -110,7 +110,7 @@ const Banner = () => {
             {
               tagData &&
               tagData
-              .map((item) => <Tag className="atag" tagUrl={item.tagUrl} tagText={item.tagText} />)
+              .map((item, idx) => <Tag key={idx} className="atag" tagUrl={item.tagUrl} tagText={item.tagText} />)
             }
           </div>
         </div>

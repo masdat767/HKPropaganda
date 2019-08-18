@@ -1,6 +1,7 @@
 import React, { useRef, useImperativeHandle } from "react"
 
-import { Image } from "../../components"
+import { Link } from "gatsby"
+import { Card } from "../../components"
 
 const HorizotalList = (props, ref) => {
   const { picList } = props
@@ -12,20 +13,16 @@ const HorizotalList = (props, ref) => {
     },
   }))
 
-  const picListJSX = picList.map(imgSrc => (
+  const picListJSX = picList.map((imgSrc, idx) => (
     <div
       style={{
         borderRadius: 8,
         marginBottom: 24,
         overflow: "hidden",
       }}
+      key={idx}
     >
-      <Image
-        imgSrc={imgSrc}
-        style={{
-          height: `100%`,
-        }}
-      />
+      <Card imgSrc={imgSrc} />
     </div>
   ))
 
