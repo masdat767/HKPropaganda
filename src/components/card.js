@@ -61,7 +61,7 @@ function SimpleDialog(props) {
       aria-labelledby="simple-dialog-title"
       open={open}
       fullWidth={true}
-      maxWidth={`98%`}
+      maxWidth={`xl`}
       scroll={`body`}
     >
       <DialogTitle

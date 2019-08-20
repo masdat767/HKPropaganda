@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles"
 import { TextField, InputAdornment } from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
 
-import { Image, Tag } from "../../components"
+import { Image, Tag, Autocomplete } from "../../components"
 
 import "./Banner.module.css"
 
@@ -17,7 +17,7 @@ const Banner = () => {
         zIndex: -1,
       },
     },
-  })(TextField)
+  })(Autocomplete)
 
   const tagData = [{
     "tagUrl": "abc",
@@ -78,7 +78,7 @@ const Banner = () => {
             Powered by HongKongese
           </div>
           <SearchBar
-            style={{ width: `50%` }}
+            // style={{ width: `50%` }}
             placeholder="Search Hong Kong Protest Images and Video Here"
             onChange={() => {}}
             InputProps={{
