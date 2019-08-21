@@ -2,24 +2,9 @@ import React, { useState, useEffect, useRef } from "react"
 import { withStyles } from "@material-ui/core/styles"
 import { TextField, InputAdornment } from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
-import { ChipList } from "../components"
+import { Chip, Button } from "@material-ui/core"
 
 import Downshift from "downshift";
-
-
-// const items = [
-//   { value: "apple" },
-//   { value: "pear" },
-//   { value: "orange" },
-//   { value: "grape" },
-//   { value: "banana" }
-// ];
-
-// const chips = [
-//   { key: 0, label: 'Angular' },
-//   { key: 1, label: 'jQuery' },
-//   { key: 4, label: 'Vue.js' },
-// ];
 
 const InputText = withStyles({
   root: {
@@ -33,7 +18,10 @@ const InputText = withStyles({
 })(TextField)
 
 const Autocomplete = ({ style }) => {
-  const [chipData0, setChipData0] = useState([{ key: 0, label: 'Angular' }]);
+  // Selected tags
+  const [chipData, setChipData] = useState([]);
+
+  // Autocomplete suggestions of tags
   const [items, setItems] = useState([]);
 
   async function onUpdate (inputValue) {
@@ -54,17 +42,25 @@ const Autocomplete = ({ style }) => {
     }
   }
 
+  const handleDelete = chipToDelete => () => {
+    setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key));
+  };
+
+  const handleSearch = () => {
+    let tagsKey = chipData.map((item) => item.key).join(',');
+    let url = `/material?tags=${tagsKey}`
+    console.log(`fetch: ${url}`);
+  };
+
   return (
     <Downshift
       onSelect={selection => {
-        let newChips = chipData0.slice()
+        let newChips = chipData.slice()
         newChips.push({
           key: selection.id,
           label: selection.text
         })
-        console.log(newChips)
-        setChipData0(newChips)
-        // alert(selection ? `You selected ${selection.text}` : "Selection Cleared")
+        setChipData(newChips)
       }}
       onInputValueChange={value => onUpdate(value)}
       itemToString={item => (item ? item.text : "")}
@@ -98,7 +94,20 @@ const Autocomplete = ({ style }) => {
               startAdornment: (
                 <InputAdornment position="start">
                   <SearchIcon />
-                  <ChipList chips={chipData0} />
+                  {
+                    chipData.map(data => {
+                      return (
+                        <Chip
+                          key={data.key}
+                          label={data.label}
+                          onDelete={handleDelete(data)}
+                        />
+                      );
+                    })
+                  }
+                  <Button onClick={handleSearch}>
+                    Search
+                  </Button>
                 </InputAdornment>
               ),
             }}
