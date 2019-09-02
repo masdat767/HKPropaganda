@@ -4,12 +4,12 @@ import { TextField, InputAdornment } from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
 
 import { Image, Tag, Autocomplete } from "../../components"
-import _ from 'lodash';
+import _ from "lodash"
 
 import "./Banner.module.css"
 
-const Banner = ({tagList, updateSearch}) => {
-  const [selectedChip, setSelectedChip] = useState([]);
+const Banner = ({ tagList, updateSearch }) => {
+  const [selectedChip, setSelectedChip] = useState([])
   const SearchBar = withStyles({
     root: {
       "& input + fieldset": {
@@ -21,31 +21,27 @@ const Banner = ({tagList, updateSearch}) => {
     },
   })(Autocomplete)
 
-  const onSearch = (keyword) => {
-    updateSearch(
-      {
-        updateKeyword: keyword,
-        updateTagList: selectedChip
-      }
-    )
+  const onSearch = keyword => {
+    updateSearch({
+      updateKeyword: keyword,
+      updateTagList: selectedChip,
+    })
   }
 
   const tagListJSX = tagList
     .filter((a, index) => index < 8)
-    .map((tag) => {
-      const { name } = tag;
+    .map(tag => {
+      const { name } = tag
       const tagOnClick = () => {
         setSelectedChip(prevState => {
           if (!_.some(prevState, tag)) {
-            return prevState.concat(tag);
+            return prevState.concat(tag)
           }
-          return prevState;
+          return prevState
         })
       }
-      
-      return (
-      <Tag key={name} tagText={name} onClick={tagOnClick} />
-      )
+
+      return <Tag key={name} tagText={name} onClick={tagOnClick} />
     })
 
   return (

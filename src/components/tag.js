@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql, Link } from "gatsby"
 import Img from "gatsby-image"
-import {Button} from '@material-ui/core';
+import { Button } from "@material-ui/core"
 
 import _ from "lodash"
 
@@ -14,7 +14,6 @@ import _ from "lodash"
  */
 
 const Tag = ({ className, tagText, ...otherProps }) => {
-
   return (
     <Button
       {...otherProps}
@@ -26,11 +25,11 @@ const Tag = ({ className, tagText, ...otherProps }) => {
         fontSize: `0.8rem`,
         color: `white`,
         textShadow: `1px 1px 2px #333`,
-        textTransform: 'capitalize',
+        textTransform: "capitalize",
       }}
       variant="outlined"
     >
-      { tagText }
+      {tagText}
     </Button>
   )
 }

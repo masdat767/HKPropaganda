@@ -3,11 +3,11 @@ import { withStyles } from "@material-ui/core/styles"
 import { TextField, InputAdornment } from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
 import { Chip, Button } from "@material-ui/core"
-import _ from "lodash";
+import _ from "lodash"
 
-import Downshift from "downshift";
+import Downshift from "downshift"
 
-import "./autocomplete.css";
+import "./autocomplete.css"
 
 const InputText = withStyles({
   root: {
@@ -22,66 +22,72 @@ const InputText = withStyles({
 
 const Autocomplete = ({ tagList, selectedChip, setSelectedChip, onSearch }) => {
   // Selected tags
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("")
 
-  const onUpdate = (inputValue) => {
+  const onUpdate = inputValue => {
     if (inputValue && inputValue.length > 0) {
-
     }
   }
 
-  const onSelect = (tag) => {
+  const onSelect = tag => {
     setSelectedChip(prevState => {
       if (!_.some(prevState, tag)) {
-        return prevState.concat(tag);
+        return prevState.concat(tag)
       }
-      return prevState;
+      return prevState
     })
-    setInputValue("");
+    setInputValue("")
   }
 
-  const onInputValueChange = (input) => {
-    setInputValue(input);
+  const onInputValueChange = input => {
+    setInputValue(input)
   }
 
   const handleDelete = chipToDelete => () => {
-    setSelectedChip(chips => chips.filter(chip => chip.id !== chipToDelete.id));
-  };
-
-  const handleSearch = () => {
-    onSearch(inputValue);
+    setSelectedChip(chips => chips.filter(chip => chip.id !== chipToDelete.id))
   }
 
-  const downshiftListJSX = ({isOpen, highlightedIndex, selectedItem, getMenuProps, getItemProps, inputValue}) => {
+  const handleSearch = () => {
+    onSearch(inputValue)
+  }
+
+  const downshiftListJSX = ({
+    isOpen,
+    highlightedIndex,
+    selectedItem,
+    getMenuProps,
+    getItemProps,
+    inputValue,
+  }) => {
     if (!isOpen || inputValue.length === 0) {
-      return ;
+      return
     }
     const tagListJSX = tagList
-      .filter(({name}) => _.includes(name.toLowerCase(), inputValue.toLowerCase()))
-      .map((tag, index) => (
-      <div
-        className="autoComplete_ListCell"
-        key={tag.id}
-        {...getItemProps({
-          key: tag.name,
-          index,
-          item: tag,
-          style: {
-            backgroundColor: highlightedIndex === index ? "#f0f0f0" : "#ffffff",
-            fontWeight: selectedItem === tag ? "bold" : "normal"
-          }
-        })}
-      >
-        {tag.name}
-      </div>
+      .filter(({ name }) =>
+        _.includes(name.toLowerCase(), inputValue.toLowerCase())
       )
-    )
+      .map((tag, index) => (
+        <div
+          className="autoComplete_ListCell"
+          key={tag.id}
+          {...getItemProps({
+            key: tag.name,
+            index,
+            item: tag,
+            style: {
+              backgroundColor:
+                highlightedIndex === index ? "#f0f0f0" : "#ffffff",
+              fontWeight: selectedItem === tag ? "bold" : "normal",
+            },
+          })}
+        >
+          {tag.name}
+        </div>
+      ))
 
     return (
       <div className="autoComplete_ListWrapper">
-        <div {...getMenuProps()} 
-          className="autoComplete_List"
-        >
+        <div {...getMenuProps()} className="autoComplete_List">
           {tagListJSX}
         </div>
       </div>
@@ -93,20 +99,18 @@ const Autocomplete = ({ tagList, selectedChip, setSelectedChip, onSearch }) => {
       onSelect={onSelect}
       onInputValueChange={onInputValueChange}
       inputValue={inputValue}
-      itemToString={(tag) => _.get(tag, 'name', '')}
+      itemToString={tag => _.get(tag, "name", "")}
     >
-      {({
-        getInputProps,
-        ...otherInputProps,
-      }) => (
+      {({ getInputProps, ...otherInputProps }) => (
         <div
           style={{
             width: `100%`,
             maxWidth: `992px`,
-            position: 'relative',
+            position: "relative",
           }}
         >
-          <InputText {...getInputProps()}
+          <InputText
+            {...getInputProps()}
             style={{
               width: `100%`,
               border: `1px solid #A0A0A0`,
@@ -118,20 +122,16 @@ const Autocomplete = ({ tagList, selectedChip, setSelectedChip, onSearch }) => {
               startAdornment: (
                 <InputAdornment position="start">
                   <SearchIcon />
-                  {
-                    selectedChip.map(data => {
-                      return (
-                        <Chip
-                          key={data.key}
-                          label={data.name}
-                          onDelete={handleDelete(data)}
-                        />
-                      );
-                    })
-                  }
-                  <Button onClick={handleSearch}>
-                    Search
-                  </Button>
+                  {selectedChip.map(data => {
+                    return (
+                      <Chip
+                        key={data.key}
+                        label={data.name}
+                        onDelete={handleDelete(data)}
+                      />
+                    )
+                  })}
+                  <Button onClick={handleSearch}>Search</Button>
                 </InputAdornment>
               ),
             }}

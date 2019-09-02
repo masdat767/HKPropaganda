@@ -1,29 +1,29 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import Dialog from '@material-ui/core/Dialog';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles } from "@material-ui/core/styles"
+import Button from "@material-ui/core/Button"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import DialogContent from "@material-ui/core/DialogContent"
+import Dialog from "@material-ui/core/Dialog"
+import Grid from "@material-ui/core/Grid"
 import { Tag } from "../components"
 
 import _ from "lodash"
 
 function SimpleDialog(props) {
-  const { onClose, selectedValue, open, imgData } = props;
-  const { tags } = imgData;
-  const imgSrc = _.get(imgData, 'main_file.path', '');
+  const { onClose, selectedValue, open, imgData } = props
+  const { tags } = imgData
+  const imgSrc = _.get(imgData, "main_file.path", "")
 
   function handleClose() {
-    onClose(selectedValue);
+    onClose(selectedValue)
   }
 
   function handleDownload() {
-    let a = document.createElement('a')
+    let a = document.createElement("a")
     a.href = imgSrc
-    a.download = imgSrc.split('/').pop()
+    a.download = imgSrc.split("/").pop()
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -51,16 +51,20 @@ function SimpleDialog(props) {
           justify="flex-end"
           alignItems="center"
           style={{
-            margin: "8px 0"
+            margin: "8px 0",
           }}
         >
-          <a href={imgSrc} target="_blank" style={{
-            textDecoration: "blink",
-          }} download>
-            <Button 
-              color="primary"
-              size="large"
-            >Download</Button>
+          <a
+            href={imgSrc}
+            target="_blank"
+            style={{
+              textDecoration: "blink",
+            }}
+            download
+          >
+            <Button color="primary" size="large">
+              Download
+            </Button>
           </a>
         </Grid>
 
@@ -71,12 +75,12 @@ function SimpleDialog(props) {
           }}
         >
           <img
-          src={imgSrc}
-          style={{
-            margin: 'auto',
-            objectFit: `cover`,
-          }}
-        />
+            src={imgSrc}
+            style={{
+              margin: "auto",
+              objectFit: `cover`,
+            }}
+          />
         </div>
 
         <Grid
@@ -85,28 +89,30 @@ function SimpleDialog(props) {
           justify="space-between"
           alignItems="center"
           style={{
-            margin: "24px 0"
+            margin: "24px 0",
           }}
         >
           <div>
             <span> Tags: </span>
-            {
-              tags.map(({id, name}) => (<Tag tagText={name} key={id} />))
-            }
+            {tags.map(({ id, name }) => (
+              <Tag tagText={name} key={id} />
+            ))}
           </div>
           <div>
-            <Button variant="outlined" color="primary">Share</Button>
+            <Button variant="outlined" color="primary">
+              Share
+            </Button>
           </div>
         </Grid>
       </DialogContent>
     </Dialog>
-  );
+  )
 }
 
 SimpleDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-};
+}
 
 /**
  * This component is the Card.
@@ -116,16 +122,16 @@ SimpleDialog.propTypes = {
  */
 
 const Card = ({ className, CardUrl, CardText, imgData }) => {
-  const [open, setOpen] = React.useState(false);
-  const imgSrc = _.get(imgData, 'main_file.path', '');
+  const [open, setOpen] = React.useState(false)
+  const imgSrc = _.get(imgData, "main_file.path", "")
 
   function handleClickOpen(e) {
-    setOpen(true);
+    setOpen(true)
   }
 
   const handleClose = value => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   return (
     <>
@@ -140,11 +146,13 @@ const Card = ({ className, CardUrl, CardText, imgData }) => {
           src={imgSrc}
           style={{
             objectFit: `cover`,
-            margin: `0`
+            margin: `0`,
           }}
         />
       </Button>
-      {open ? <SimpleDialog open={open} onClose={handleClose} imgData={imgData} /> : null}
+      {open ? (
+        <SimpleDialog open={open} onClose={handleClose} imgData={imgData} />
+      ) : null}
     </>
   )
 }
