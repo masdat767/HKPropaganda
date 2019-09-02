@@ -13,7 +13,7 @@ const HorizotalList = (props, ref) => {
     },
   }))
 
-  const picListJSX = picList.map((imgSrc, idx) => (
+  const picListJSX = picList.map((imgData, idx) => (
     <div
       style={{
         borderRadius: 8,
@@ -22,7 +22,7 @@ const HorizotalList = (props, ref) => {
       }}
       key={idx}
     >
-      <Card imgSrc={imgSrc} />
+      <Card imgData={imgData} />
     </div>
   ))
 

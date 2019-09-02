@@ -1,13 +1,15 @@
-import React from "react"
+import React, { useState } from "react"
 import { withStyles } from "@material-ui/core/styles"
 import { TextField, InputAdornment } from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
 
 import { Image, Tag, Autocomplete } from "../../components"
+import _ from 'lodash';
 
 import "./Banner.module.css"
 
-const Banner = () => {
+const Banner = ({tagList, updateSearch}) => {
+  const [selectedChip, setSelectedChip] = useState([]);
   const SearchBar = withStyles({
     root: {
       "& input + fieldset": {
@@ -19,18 +21,32 @@ const Banner = () => {
     },
   })(Autocomplete)
 
-  const tagData = [{
-    "tagUrl": "abc",
-    "tagText": "abc",
-  },
-  {
-    "tagUrl": "222",
-    "tagText": "222222222",
-  },
-  {
-    "tagUrl": "five-elements",
-    "tagText": "五大訴求",
-  }];
+  const onSearch = (keyword) => {
+    updateSearch(
+      {
+        updateKeyword: keyword,
+        updateTagList: selectedChip
+      }
+    )
+  }
+
+  const tagListJSX = tagList
+    .filter((a, index) => index < 8)
+    .map((tag) => {
+      const { name } = tag;
+      const tagOnClick = () => {
+        setSelectedChip(prevState => {
+          if (!_.some(prevState, tag)) {
+            return prevState.concat(tag);
+          }
+          return prevState;
+        })
+      }
+      
+      return (
+      <Tag key={name} tagText={name} onClick={tagOnClick} />
+      )
+    })
 
   return (
     <>
@@ -77,10 +93,13 @@ const Banner = () => {
           >
             Powered by HongKongese
           </div>
+
           <SearchBar
-            // style={{ width: `50%` }}
             placeholder="Search Hong Kong Protest Images and Video Here"
-            onChange={() => {}}
+            tagList={tagList}
+            selectedChip={selectedChip}
+            setSelectedChip={setSelectedChip}
+            onSearch={onSearch}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -94,24 +113,24 @@ const Banner = () => {
 
           <div
             style={{
-              width: `50%`,
+              display: `flex`,
+              width: `100%`,
+              maxWidth: `992px`,
               textAlign: `left`,
+              flexWrap: `wrap`,
+              alignItems: `center`,
             }}
           >
             <span
               style={{
                 paddingRight: `4px`,
                 fontSize: `0.8rem`,
-                textShadow: `0px 1px 2px #333`,
+                textShadow: `1px 1px 2px #333`,
               }}
             >
               Trending Search:
             </span>
-            {
-              tagData &&
-              tagData
-              .map((item, idx) => <Tag key={idx} className="atag" tagUrl={item.tagUrl} tagText={item.tagText} />)
-            }
+            {tagListJSX}
           </div>
         </div>
         <div

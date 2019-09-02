@@ -7,30 +7,17 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import Dialog from '@material-ui/core/Dialog';
 import Grid from '@material-ui/core/Grid';
-import { blue } from '@material-ui/core/colors';
-
-import { Image, Tag } from "../components"
+import { Tag } from "../components"
 
 import _ from "lodash"
 
-
-const useStyles = makeStyles({
-  avatar: {
-    backgroundColor: blue[100],
-    color: blue[600],
-  },
-});
-
 function SimpleDialog(props) {
-  const classes = useStyles();
-  const { onClose, selectedValue, open, uuid, imgSrc } = props;
+  const { onClose, selectedValue, open, imgData } = props;
+  const { tags } = imgData;
+  const imgSrc = _.get(imgData, 'main_file.path', '');
 
   function handleClose() {
     onClose(selectedValue);
-  }
-
-  function handleListItemClick(value) {
-    onClose(value);
   }
 
   function handleDownload() {
@@ -42,19 +29,6 @@ function SimpleDialog(props) {
     document.body.removeChild(a)
   }
 
-  const tagData = [{
-    "tagUrl": "abc",
-    "tagText": "abc",
-  },
-  {
-    "tagUrl": "222",
-    "tagText": "222222222",
-  },
-  {
-    "tagUrl": "five-elements",
-    "tagText": "五大訴求",
-  }];
-
   return (
     <Dialog
       onClose={handleClose}
@@ -64,11 +38,11 @@ function SimpleDialog(props) {
       maxWidth={`xl`}
       scroll={`body`}
     >
-      <DialogTitle
+      {/* <DialogTitle
         id="simple-dialog-title"
       >
-        Title: { uuid }
-      </DialogTitle>
+        Title:
+      </DialogTitle> */}
 
       <DialogContent>
         <Grid
@@ -76,23 +50,33 @@ function SimpleDialog(props) {
           direction="row"
           justify="flex-end"
           alignItems="center"
+          style={{
+            margin: "8px 0"
+          }}
         >
-          <Button
-            onClick={handleDownload}
-          >Download</Button>
+          <a href={imgSrc} target="_blank" style={{
+            textDecoration: "blink",
+          }} download>
+            <Button 
+              color="primary"
+              size="large"
+            >Download</Button>
+          </a>
         </Grid>
 
         <div
           className="image-holder"
+          style={{
+            display: "flex",
+          }}
         >
-          <Image
-            imgSrc={imgSrc}
-            style={{
-              maxWidth: '700px',
-              height: `auto`,
-              margin: `0 auto`,
-            }}
-          />
+          <img
+          src={imgSrc}
+          style={{
+            margin: 'auto',
+            objectFit: `cover`,
+          }}
+        />
         </div>
 
         <Grid
@@ -100,18 +84,18 @@ function SimpleDialog(props) {
           direction="row"
           justify="space-between"
           alignItems="center"
+          style={{
+            margin: "24px 0"
+          }}
         >
           <div>
-            Tags:
+            <span> Tags: </span>
             {
-              tagData &&
-              tagData
-              .map((item, idx) => <Tag key={idx} className="atag" tagUrl={item.tagUrl} tagText={item.tagText} />)
+              tags.map(({id, name}) => (<Tag tagText={name} key={id} />))
             }
           </div>
           <div>
-            Share:
-            <Button >Share</Button>
+            <Button variant="outlined" color="primary">Share</Button>
           </div>
         </Grid>
       </DialogContent>
@@ -131,10 +115,9 @@ SimpleDialog.propTypes = {
  * @param {string} CardText - The Card text of frontend
  */
 
-const Card = ({ className, CardUrl, CardText, imgSrc }) => {
-
-
+const Card = ({ className, CardUrl, CardText, imgData }) => {
   const [open, setOpen] = React.useState(false);
+  const imgSrc = _.get(imgData, 'main_file.path', '');
 
   function handleClickOpen(e) {
     setOpen(true);
@@ -153,28 +136,29 @@ const Card = ({ className, CardUrl, CardText, imgSrc }) => {
           display: `block`,
         }}
       >
-        <Image
-          imgSrc={imgSrc}
+        <img
+          src={imgSrc}
           style={{
-            height: `100%`,
+            objectFit: `cover`,
+            margin: `0`
           }}
         />
       </Button>
-      <SimpleDialog open={open} onClose={handleClose} uuid={imgSrc} imgSrc={imgSrc} />
+      {open ? <SimpleDialog open={open} onClose={handleClose} imgData={imgData} /> : null}
     </>
   )
 }
 
 Card.defaultProps = {
   className: "",
-  CardUrl: "",
+  CardUrl: {},
   CardText: "",
   imgSrc: "placeholderImage",
 }
 
 Card.propTypes = {
   className: PropTypes.string,
-  CardUrl: PropTypes.string,
+  CardUrl: PropTypes.object,
   CardText: PropTypes.string,
   imgSrc: PropTypes.string,
 }

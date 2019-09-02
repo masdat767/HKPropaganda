@@ -56,10 +56,6 @@ const InfiniteScroll = ({ picList, updateScroll }, ref) => {
   }, [isLoading])
 
   useEffect(() => {
-    // const minItem = _.minBy(mapping, (mapItem) => {
-    //     return _.get(mapItem, "ref.current.getHeight", () => {})();
-    // });
-    // console.log(minItem)
     setFirstList(picList.filter((text, index) => index % 3 === 0))
     setSecondList(picList.filter((text, index) => index % 3 === 1))
     setThirdList(picList.filter((text, index) => index % 3 === 2))
@@ -94,7 +90,7 @@ const InfiniteScroll = ({ picList, updateScroll }, ref) => {
 }
 
 InfiniteScroll.propTypes = {
-  picList: PropTypes.arrayOf(PropTypes.string),
+  picList: PropTypes.arrayOf(PropTypes.object),
   updateScroll: PropTypes.func,
 }
 

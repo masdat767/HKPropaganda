@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql, Link } from "gatsby"
 import Img from "gatsby-image"
+import {Button} from '@material-ui/core';
 
 import _ from "lodash"
 
@@ -12,25 +13,25 @@ import _ from "lodash"
  * @param {string} tagText - The Tag text of frontend
  */
 
-const Tag = ({ className, tagUrl, tagText }) => {
+const Tag = ({ className, tagText, ...otherProps }) => {
 
   return (
-    <Link
-      to={`/tag/${tagUrl}`}
+    <Button
+      {...otherProps}
       className={className}
       style={{
-        margin: `0.1rem`,
-        padding: `0.3rem 0.6rem`,
+        margin: `4px 2px`,
         border: `1px solid #A0A0A0`,
         borderRadius: `20px`,
         fontSize: `0.8rem`,
-        textDecoration: `none`,
         color: `white`,
-        textShadow: `1px 1px 1px #333`,
+        textShadow: `1px 1px 2px #333`,
+        textTransform: 'capitalize',
       }}
+      variant="outlined"
     >
       { tagText }
-    </Link>
+    </Button>
   )
 }
 

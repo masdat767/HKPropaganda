@@ -3,8 +3,11 @@ import { withStyles } from "@material-ui/core/styles"
 import { TextField, InputAdornment } from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
 import { Chip, Button } from "@material-ui/core"
+import _ from "lodash";
 
 import Downshift from "downshift";
+
+import "./autocomplete.css";
 
 const InputText = withStyles({
   root: {
@@ -17,75 +20,96 @@ const InputText = withStyles({
   },
 })(TextField)
 
-const Autocomplete = ({ style }) => {
+const Autocomplete = ({ tagList, selectedChip, setSelectedChip, onSearch }) => {
   // Selected tags
-  const [chipData, setChipData] = useState([]);
+  const [inputValue, setInputValue] = useState('');
 
-  // Autocomplete suggestions of tags
-  const [items, setItems] = useState([]);
-
-  async function onUpdate (inputValue) {
+  const onUpdate = (inputValue) => {
     if (inputValue && inputValue.length > 0) {
-      const response = await fetch(
-        `/${inputValue}.json`,
-      )
 
-      let result = {}
-
-      try {
-        result = await response.json();
-      } catch (e) {
-        // NOP
-        return
-      }
-      setItems(result.tags);
     }
   }
 
+  const onSelect = (tag) => {
+    setSelectedChip(prevState => {
+      if (!_.some(prevState, tag)) {
+        return prevState.concat(tag);
+      }
+      return prevState;
+    })
+    setInputValue("");
+  }
+
+  const onInputValueChange = (input) => {
+    setInputValue(input);
+  }
+
   const handleDelete = chipToDelete => () => {
-    setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key));
+    setSelectedChip(chips => chips.filter(chip => chip.id !== chipToDelete.id));
   };
 
   const handleSearch = () => {
-    let tagsKey = chipData.map((item) => item.key).join(',');
-    let url = `/material?tags=${tagsKey}`
-    console.log(`fetch: ${url}`);
-  };
+    onSearch(inputValue);
+  }
+
+  const downshiftListJSX = ({isOpen, highlightedIndex, selectedItem, getMenuProps, getItemProps, inputValue}) => {
+    if (!isOpen || inputValue.length === 0) {
+      return ;
+    }
+    const tagListJSX = tagList
+      .filter(({name}) => _.includes(name.toLowerCase(), inputValue.toLowerCase()))
+      .map((tag, index) => (
+      <div
+        className="autoComplete_ListCell"
+        key={tag.id}
+        {...getItemProps({
+          key: tag.name,
+          index,
+          item: tag,
+          style: {
+            backgroundColor: highlightedIndex === index ? "#f0f0f0" : "#ffffff",
+            fontWeight: selectedItem === tag ? "bold" : "normal"
+          }
+        })}
+      >
+        {tag.name}
+      </div>
+      )
+    )
+
+    return (
+      <div className="autoComplete_ListWrapper">
+        <div {...getMenuProps()} 
+          className="autoComplete_List"
+        >
+          {tagListJSX}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <Downshift
-      onSelect={selection => {
-        let newChips = chipData.slice()
-        newChips.push({
-          key: selection.id,
-          label: selection.text
-        })
-        setChipData(newChips)
-      }}
-      onInputValueChange={value => onUpdate(value)}
-      itemToString={item => (item ? item.text : "")}
+      onSelect={onSelect}
+      onInputValueChange={onInputValueChange}
+      inputValue={inputValue}
+      itemToString={(tag) => _.get(tag, 'name', '')}
     >
       {({
         getInputProps,
-        getItemProps,
-        getLabelProps,
-        getMenuProps,
-        isOpen,
-        inputValue,
-        highlightedIndex,
-        selectedItem
+        ...otherInputProps,
       }) => (
         <div
           style={{
-            width: `50%`,
+            width: `100%`,
+            maxWidth: `992px`,
+            position: 'relative',
           }}
         >
           <InputText {...getInputProps()}
             style={{
               width: `100%`,
-              borderWidth: `1`,
-              borderStyle: `solid`,
-              borderColor: `#A0A0A0`,
+              border: `1px solid #A0A0A0`,
               borderRadius: `30px`,
               background: "white",
             }}
@@ -95,11 +119,11 @@ const Autocomplete = ({ style }) => {
                 <InputAdornment position="start">
                   <SearchIcon />
                   {
-                    chipData.map(data => {
+                    selectedChip.map(data => {
                       return (
                         <Chip
                           key={data.key}
-                          label={data.label}
+                          label={data.name}
                           onDelete={handleDelete(data)}
                         />
                       );
@@ -114,28 +138,7 @@ const Autocomplete = ({ style }) => {
             margin="normal"
             variant="outlined"
           />
-          <ul {...getMenuProps()}>
-            {isOpen
-              ? items && items
-                  .filter(item => true || !inputValue || item.value.includes(inputValue))
-                  .map((item, index) => (
-                    <li
-                      {...getItemProps({
-                        key: item.id,
-                        index,
-                        item,
-                        style: {
-                          backgroundColor:
-                            highlightedIndex === index ? "lightgray" : "black",
-                          fontWeight: selectedItem === item ? "bold" : "normal"
-                        }
-                      })}
-                    >
-                      {item.text}
-                    </li>
-                  ))
-              : null}
-          </ul>
+          {downshiftListJSX(otherInputProps)}
         </div>
       )}
     </Downshift>
