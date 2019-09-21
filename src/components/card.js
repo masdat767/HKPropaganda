@@ -63,7 +63,7 @@ function SimpleDialog(props) {
             download
           >
             <Button color="primary" size="large">
-              Download
+              下載
             </Button>
           </a>
         </Grid>
@@ -93,15 +93,15 @@ function SimpleDialog(props) {
           }}
         >
           <div>
-            <span> Tags: </span>
+            <span> 標籤: </span>
             {tags.map(({ id, name }) => (
               <Tag tagText={name} key={id} />
             ))}
           </div>
           <div>
-            <Button variant="outlined" color="primary">
-              Share
-            </Button>
+            {/* <Button variant="outlined" color="primary">
+              分享
+            </Button> */}
           </div>
         </Grid>
       </DialogContent>

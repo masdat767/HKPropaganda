@@ -80,18 +80,18 @@ const Banner = ({ tagList, updateSearch }) => {
               textShadow: `0px 0px 4px black`,
             }}
           >
-            The TG's source of freely useable images
+            搜羅所有文宣
           </div>
           <div
             style={{
               textShadow: `0px 0px 4px black`,
             }}
           >
-            Powered by HongKongese
+            印出嚟貼爆連儂牆
           </div>
 
           <SearchBar
-            placeholder="Search Hong Kong Protest Images and Video Here"
+            placeholder="用標籤搵相關文宣，如黑警、831、721、高官護照"
             tagList={tagList}
             selectedChip={selectedChip}
             setSelectedChip={setSelectedChip}
@@ -124,7 +124,7 @@ const Banner = ({ tagList, updateSearch }) => {
                 textShadow: `1px 1px 2px #333`,
               }}
             >
-              Trending Search:
+              熱門字眼:
             </span>
             {tagListJSX}
           </div>
@@ -132,7 +132,7 @@ const Banner = ({ tagList, updateSearch }) => {
         <div
           style={{
             height: `100%`,
-            filter: `blur(4px)`,
+            filter: `blur(4px) brightness(90%)`,
           }}
         >
           <Image

@@ -117,7 +117,7 @@ const Autocomplete = ({ tagList, selectedChip, setSelectedChip, onSearch }) => {
               borderRadius: `30px`,
               background: "white",
             }}
-            placeholder="Search Hong Kong Protest Images and Video Here"
+            placeholder="用標籤搵相關文宣，如黑警、831、721、高官護照"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -131,7 +131,7 @@ const Autocomplete = ({ tagList, selectedChip, setSelectedChip, onSearch }) => {
                       />
                     )
                   })}
-                  <Button onClick={handleSearch}>Search</Button>
+                  <Button style={{width: 'max-content'}} onClick={handleSearch}>搵文宣</Button>
                 </InputAdornment>
               ),
             }}
