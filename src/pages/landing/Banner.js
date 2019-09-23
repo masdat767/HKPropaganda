@@ -147,4 +147,8 @@ const Banner = ({ tagList, updateSearch }) => {
   )
 }
 
+Banner.defaultProps = {
+  tagList: [],
+}
+
 export default Banner

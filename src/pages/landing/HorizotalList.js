@@ -1,4 +1,5 @@
 import React, { useRef, useImperativeHandle } from "react"
+import _ from "lodash";
 
 import { Link } from "gatsby"
 import { Card } from "../../components"
@@ -13,7 +14,7 @@ const HorizotalList = (props, ref) => {
     },
   }))
 
-  const picListJSX = picList.map((imgData, idx) => (
+  const picListJSX = _.map(picList, (imgData, idx) => (
     <div
       style={{
         borderRadius: 8,
