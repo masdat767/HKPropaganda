@@ -1,0 +1,29 @@
+{
+  "redirects": [],
+  "pages": [
+    {
+      "path": "/404/"
+    },
+    {
+      "path": "/"
+    },
+    {
+      "path": "/landing/Banner/"
+    },
+    {
+      "path": "/landing/HorizotalList/"
+    },
+    {
+      "path": "/landing/"
+    },
+    {
+      "path": "/landing/InfiniteScroll/"
+    },
+    {
+      "path": "/page-2/"
+    },
+    {
+      "path": "/404.html"
+    }
+  ]
+}
