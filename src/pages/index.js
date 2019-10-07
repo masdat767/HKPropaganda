@@ -1,22 +1,9 @@
 import React, { useState, useEffect } from "react"
-// import { Link } from "gatsby"
-// import { TextField } from "@material-ui/core"
-
 import { getTags, searchMedia, getMedia } from "../service/api"
 
 import { Banner, InfiniteScroll } from "./landing"
 
-import styles from "./landing.css"
-
-import { Layout, Image, SEO } from "../components"
-
-const newList = [
-  "propaganda1",
-  "propaganda2",
-  "propaganda3",
-  "propaganda4",
-  "propaganda5",
-]
+import { Layout, SEO } from "../components"
 
 const IndexPage = () => {
   const [tagList, setTagList] = useState([])

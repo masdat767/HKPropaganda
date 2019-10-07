@@ -34,3 +34,11 @@ export const getMedia = ({ id = 1 }) => {
 export const searchMedia = (payload = demoPayload) => {
   return axios.post("/medias", payload)
 }
+
+export const getGame = () => {
+  return axios.get('/game');
+}
+
+export const postGame = (payload) => {
+  return axios.post('/game', payload);
+}
