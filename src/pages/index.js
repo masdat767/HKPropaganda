@@ -5,6 +5,8 @@ import { Banner, InfiniteScroll } from "./landing"
 
 import { Layout, SEO } from "../components"
 
+import "../theme/default.css";
+
 const IndexPage = () => {
   const [tagList, setTagList] = useState([])
   const [picList, setPicList] = useState([])
