@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react"
 import { Layout, SEO } from "../components"
-import {getGame} from "../service/api";
+import {getGame, postGame} from "../service/api";
 import classnames from "classnames";
 import _ from "lodash"
 
-import {Card, CardContent, CardActions, Button, CircularProgress } from '@material-ui/core';
+import {Card, CardContent, CardActions, Button, CircularProgress, TextField } from '@material-ui/core';
 
 import "../theme/default.css";
 import styles from "./game.module.css";
@@ -18,6 +18,9 @@ const Game = () => {
     // 2 => End game
     const [stage, setStage] = useState(0);
     const [isImgLoading, setImgLoading] = useState(true);
+    const [approveTagList, setApproveTagList] = useState([]);
+    const [otherTagList, setOtherTagList] = useState([]);
+    const [otherTagInput, setOtherTagInput] = useState('');
 
     useEffect(() => {
         getGame().then((response) => {
@@ -59,16 +62,41 @@ const Game = () => {
             if (imageCount + 1 > imageList.length - 1) {
                 setStage(2);
             } else {
+                let newInputTags = otherTagList;
+                if (otherTagInput.length > 0) {
+                    newInputTags.push({name: otherTagInput});
+                }
+                const data = {
+                    media_id: imgID,
+                    approve_tags: approveTagList.map((id) => ({ id })),
+                    input_tags: newInputTags,
+                }
+                postGame(data).then((response) => console.log(response))
                 setImageCount(imageCount + 1);
                 setImgLoading(true);
+                setApproveTagList([]);
+                setOtherTagList([]);
+                setOtherTagInput('');
             }
         }
 
         
 
         const buttonListJSX = tagList.map(({id, name}) => {
-            const tagOnClick = () => {}
-            return (<Button className={styles.tagBtn} onClick={tagOnClick} key={id} variant="outlined">
+            const isApprove = approveTagList.includes(id);
+            const tagOnClick = () => {
+                if (isApprove) {
+                    setApproveTagList(prevState => prevState.filter((text) => text !== id));
+                } else {
+                    setApproveTagList(prevState => prevState.concat(id));
+                }
+            }
+            return (<Button 
+                color={ isApprove ? "primary" : "default"}
+                className={styles.tagBtn} 
+                onClick={tagOnClick} 
+                key={id} 
+                variant={ isApprove ? "contained" : "outlined"}>
                 {name}
             </Button>)
         })
@@ -99,6 +127,12 @@ const Game = () => {
                     </div>
                     <div className={styles.tagList}>
                         {buttonListJSX}
+                    </div>
+                    <div className={styles.tagQuestion}>
+                        Any other tag you want to add?
+                    </div>
+                    <div>
+                        <TextField label="Other Tag" value={otherTagInput} onChange={(e)=> setOtherTagInput(e.target.value)} />
                     </div>
                     <div className={styles.nextBtn}>
                         <Button onClick={startOnPress} variant="contained" color="primary">
