@@ -10,7 +10,7 @@ const View = ({ title, style, children }) => (
 )
 
 View.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
 }
 
 export default View

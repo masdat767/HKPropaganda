@@ -1,5 +1,6 @@
 import axios from "axios"
 import config from "../config"
+import { navigate } from "@reach/router"
 
 axios.defaults.baseURL = config.baseUrl
 const axiosSetting = {
@@ -36,7 +37,15 @@ export const searchMedia = (payload = demoPayload) => {
 }
 
 export const getGame = () => {
-  return axios.get('/game');
+  return axios.get('/game').then(error => {
+    errorCode = error.status
+    console.log(error.status)
+    switch (errorCode) {
+      case '401':
+        navigate(`/game/login`)
+        break
+    }
+  });
 }
 
 export const postGame = (payload) => {
