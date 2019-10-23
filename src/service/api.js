@@ -38,8 +38,8 @@ export const searchMedia = (payload = demoPayload) => {
 
 export const getGame = () => {
   return axios.get('/game').then(error => {
-    errorCode = error.status
-    console.log(error.status)
+    const errorCode = error.status
+    console.log(errorCode)
     switch (errorCode) {
       case '401':
         navigate(`/game/login`)
