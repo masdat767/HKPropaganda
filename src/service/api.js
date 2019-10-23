@@ -42,3 +42,4 @@ export const getGame = () => {
 export const postGame = (payload) => {
   return axios.post('/game', payload);
 }
+

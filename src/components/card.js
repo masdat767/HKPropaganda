@@ -7,7 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import DialogContent from "@material-ui/core/DialogContent"
 import Dialog from "@material-ui/core/Dialog"
 import Grid from "@material-ui/core/Grid"
-import { Tag } from "../components"
+import { Tag } from "."
 
 import _ from "lodash"
 

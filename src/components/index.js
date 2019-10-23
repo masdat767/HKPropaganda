@@ -1,9 +1,33 @@
-import Layout from "../components/layout"
-import SEO from "../components/seo"
-import Header from "../components/header"
-import Image from "../components/image"
-import Tag from "../components/tag"
-import Card from "../components/card"
-import Autocomplete from "../components/autocomplete"
+import Autocomplete from "./AutoComplete"
+import Container from "./Container"
+import Form from "./Form"
+import Game from "./Game"
+import Header from "./Header"
+import Layout from "./Layout"
+import Status from "./Status"
+import View from "./View"
+import Card from "./Card"
+import Image from "./Image"
+import Login from "./Login"
+import PrivateRoute from "./PrivateRoute"
+import SEO from "./SEO"
+import Tag from "./Tag"
 
-export { Header, Image, Layout, SEO, Tag, Card, Autocomplete }
+
+
+export {
+    Autocomplete,
+    Container,
+    Form,
+    Game,
+    Header,
+    Layout,
+    Status,
+    View,
+    Card,
+    Image,
+    Login,
+    PrivateRoute,
+    SEO,
+    Tag,
+}
