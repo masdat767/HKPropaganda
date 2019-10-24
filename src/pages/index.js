@@ -40,7 +40,7 @@ const IndexPage = () => {
     setPicPage(picPage + 1)
     setPicList(prevState => prevState.concat(result.data))
   }
-
+ 
   const updateSearch = ({ updateKeyword, updateTagList }) => {
     if (updateKeyword !== keyword || updateTagList !== selectedTagList) {
       setKeyword(updateKeyword)
