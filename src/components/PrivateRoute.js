@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { navigate } from "gatsby"
+import { navigate } from "@reach/router"
 import { isLoggedIn } from "../utils/auth"
 
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
