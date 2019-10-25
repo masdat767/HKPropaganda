@@ -37,18 +37,19 @@ export const searchMedia = (payload = demoPayload) => {
 }
 
 export const getGame = () => {
-  return axios.get('/game').then(error => {
-    const errorCode = error.status
-    console.log(errorCode)
-    switch (errorCode) {
-      case '401':
+  return axios.get("/game").then(response => {
+    const { status } = response
+
+    switch (status) {
+      case 401:
         navigate(`/game/login`)
         break
+      default:
+        return response
     }
-  });
+  })
 }
 
-export const postGame = (payload) => {
-  return axios.post('/game', payload);
+export const postGame = payload => {
+  return axios.post("/game", payload)
 }
-
