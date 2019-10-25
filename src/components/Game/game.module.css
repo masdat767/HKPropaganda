@@ -1,69 +1,70 @@
 .card {
-    margin: var(--alignmentXL) 0;
+  margin: var(--alignmentXL) 0;
 }
 
 .cardContent {
-    margin: var(--alignmentL) 0;
+  margin: var(--alignmentL) 0;
 }
 
 .cardHeader {
-    margin-bottom: var(--alignmentM);
+  margin-bottom: var(--alignmentM);
 }
 
 .cardImg {
-    display: block;
-    margin: auto;
+  display: block;
+  margin: auto;
+  max-height: 40vh;
 }
 
 .cardImgLoading {
-    width: 0 !important;
-    height: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .loading {
-    margin: var(--alignmentXL) 0;
-    display: flex;
-    justify-content: center
+  margin: var(--alignmentXL) 0;
+  display: flex;
+  justify-content: center;
 }
 
 .cardButton {
-    justify-content: center;
+  justify-content: center;
 }
 
 .tagQuestion {
-    margin: var(--alignmentM) 0;
+  margin: var(--alignmentM) 0;
 }
 
 .tagList {
-    margin: var(--alignmentM) 0;
-    display: flex;
-    justify-content: center;
+  margin: var(--alignmentM) 0;
+  display: flex;
+  justify-content: center;
 }
 
 .tagBtn {
-    margin: 0 var(--alignmentS) !important;
+  margin: 0 var(--alignmentS) !important;
 }
 
 .buttonGroup {
-    width: 100%;
-    padding: 0 var(--alignmentM);
-    margin-bottom: var(--alignmentM);
+  width: 100%;
+  padding: 0 var(--alignmentM);
+  margin-bottom: var(--alignmentM);
 }
 
 .startBtn {
-    margin: 24px;
+  margin: 24px;
 }
 
 .nextBtn {
-    text-align: right
+  text-align: right;
 }
 
 .startGame {
-    margin: 96px 48px;
-    text-align: center;
+  margin: 96px 48px;
+  text-align: center;
 }
 
 .endGame {
-    margin: 96px 48px;
-    text-align: center;
+  margin: 96px 48px;
+  text-align: center;
 }
