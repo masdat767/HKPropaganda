@@ -1,15 +1,20 @@
 import React from "react"
 import { Router } from "@reach/router"
-import { Container, Status, Game, Login, PrivateRoute } from "../components"
+import { Container, Status, /*Game,*/ Login, PrivateRoute } from "../components"
 
-const GamePage = () => (
-  <Container>
-    {/* <Status /> */}
-    <Router>
-      <PrivateRoute path="/game" component={Game} />
-      <Login path="/game/login" />
-    </Router>
-  </Container>
-)
+import Game from "../components/Game/Game"
+
+const GamePage = () => {
+  return (
+    <Container>
+      {/* <Status /> */}
+      <Router>
+        <Game path="/game" />
+        {/* <PrivateRoute path="/game" component={Game} /> */}
+        {/* <Login path="/game/login" /> */}
+      </Router>
+    </Container>
+  )
+}
 
 export default GamePage
