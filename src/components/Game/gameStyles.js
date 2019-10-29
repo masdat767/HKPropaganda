@@ -31,7 +31,7 @@ export const useStyles = makeStyles(theme => ({
     maxHeight: "80vh",
     width: "auto",
     margin: "0 auto",
-    opacity: props.isImgLoading ? "0" : "1",
+    opacity: props.isImgLoading ? 0 : 1,
     [theme.breakpoints.down("xs")]: {
       height: "40vh",
     },

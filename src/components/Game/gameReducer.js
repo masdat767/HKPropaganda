@@ -1,8 +1,12 @@
 const initialState = {
+  existingTagList: [],
   propagandaData: [],
   selectedTags: [],
-  additionalTagList: [],
-  isLoading: false,
+  customTagList: [],
+  loadingStatus: {
+    tags: false,
+    propaganda: false,
+  },
   currentIndex: 0,
 }
 
@@ -11,13 +15,22 @@ function reducer(state, action) {
     case "FETCH_PROPAGANDA": {
       const { shouldShowLoader } = action.payload
 
-      return { ...state, isLoading: shouldShowLoader }
+      return {
+        ...state,
+        loadingStatus: {
+          ...state.loadingStatus,
+          propaganda: shouldShowLoader,
+        },
+      }
     }
 
     case "FETCH_PROPAGANDA_SUCCESS": {
       return {
         ...state,
-        isLoading: false,
+        loadingStatus: {
+          ...state.loadingStatus,
+          propaganda: false,
+        },
         propagandaData: [...state.propagandaData, ...action.payload],
       }
     }
@@ -30,7 +43,7 @@ function reducer(state, action) {
       return {
         ...state,
         selectedTags: [],
-        additionalTagList: [],
+        customTagList: [],
         currentIndex: state.currentIndex + 1,
         isImgLoading: true,
       }
@@ -52,22 +65,22 @@ function reducer(state, action) {
     }
 
     case "ADD_CUSTOM_TAG": {
-      const { additionalTagList } = action.payload
+      const { customTagList } = action.payload
 
       return {
         ...state,
-        additionalTagList,
+        customTagList,
       }
     }
 
     case "REMOVE_CUSTOM_TAG": {
-      const { additionalTagList } = state
+      const { customTagList } = state
       const { tag } = action.payload
-      const newTagList = additionalTagList.filter(item => item.name !== tag)
+      const newTagList = customTagList.filter(item => item.name !== tag)
 
       return {
         ...state,
-        additionalTagList: newTagList,
+        customTagList: newTagList,
       }
     }
 
@@ -75,6 +88,27 @@ function reducer(state, action) {
       return {
         ...state,
         isImgLoading: false,
+      }
+    }
+
+    case "GET_TAGS": {
+      return {
+        ...state,
+        loadingStatus: {
+          ...state.loadingStatus,
+          tags: true,
+        },
+      }
+    }
+
+    case "GET_TAGS_SUCCESS": {
+      return {
+        ...state,
+        loadingStatus: {
+          ...state.loadingStatus,
+          tags: false,
+        },
+        existingTagList: [...action.payload],
       }
     }
 

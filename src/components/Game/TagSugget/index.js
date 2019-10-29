@@ -11,6 +11,7 @@ const useStyle = makeStyles(theme => ({
   card: {
     margin: "20px 0",
     padding: "15px 25px 0 25px",
+    overflow: "visible",
     [theme.breakpoints.down("xs")]: {
       margin: "4px 0",
     },
@@ -20,10 +21,16 @@ const useStyle = makeStyles(theme => ({
   },
 }))
 
-const TagSuggest = ({ additionalTagList, updateReference, dispatch }) => {
+const TagSuggest = ({
+  customTagList,
+  updateReference,
+  existingTagList,
+  dispatch,
+}) => {
   const classes = useStyle()
-  const [additionalTag, setAdditionalTag] = useState("")
+  const [customTag, setCustomTag] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
+  const [tagSuggestionList, setTagSuggestionList] = useState([])
 
   const removeTagFromList = tag => {
     dispatch({
@@ -33,15 +40,32 @@ const TagSuggest = ({ additionalTagList, updateReference, dispatch }) => {
   }
 
   const handleAdditionalTagChange = event => {
-    setAdditionalTag(event.target.value)
+    const { value } = event.target
+    const matchedTags = existingTagList.filter(tag => {
+      return (
+        tag.name
+          .toLowerCase()
+          .trim()
+          .includes(value) &&
+        customTagList.every(
+          customTag =>
+            customTag.name.toLowerCase().trim() !==
+            tag.name.toLowerCase().trim()
+        )
+      )
+    })
+
+    setTagSuggestionList(matchedTags)
+    setCustomTag(event.target.value)
   }
 
-  const handleTagAddition = () => {
-    const isEmpty = additionalTag.trim() === ""
-    const hasDuplicate = additionalTagList.some(
-      item => item.name === additionalTag
+  const handleTagAddition = value => {
+    const tag = value === undefined ? customTag : value
+    const isEmpty = tag.trim() === ""
+    const hasDuplicate = customTagList.some(
+      item => item.name.toLowerCase().trim() === tag.toLowerCase().trim()
     )
-    let newTagList = [...additionalTagList]
+    let newTagList = [...customTagList]
     let errMsg = ""
 
     if (isEmpty) {
@@ -49,29 +73,23 @@ const TagSuggest = ({ additionalTagList, updateReference, dispatch }) => {
     } else if (hasDuplicate) {
       errMsg = "Duplicate Tag"
     } else {
-      newTagList.push({ name: additionalTag })
-      setAdditionalTag("")
+      newTagList.push({ name: tag })
+      setCustomTag("")
     }
 
     setErrorMsg(errMsg)
     dispatch({
       type: "ADD_CUSTOM_TAG",
-      payload: { additionalTagList: newTagList },
+      payload: { customTagList: newTagList },
     })
   }
 
-  const handleInputKeyPress = event => {
-    if (event.key === "Enter") {
-      handleTagAddition()
-    }
-  }
-
   const clearInput = () => {
-    setAdditionalTag("")
+    setCustomTag("")
   }
 
   const renderChips = () => {
-    return additionalTagList.map(({ name }) => {
+    return customTagList.map(({ name }) => {
       return (
         <TagChip key={name} onDelete={() => removeTagFromList(name)}>
           {name}
@@ -86,10 +104,11 @@ const TagSuggest = ({ additionalTagList, updateReference, dispatch }) => {
     <Card className={classes.card}>
       <Typography>Any suggested tags?</Typography>
       <TagInput
-        additionalTag={additionalTag}
+        customTag={customTag}
+        setCustomTag={setCustomTag}
+        tagSuggestionList={tagSuggestionList}
         errorMsg={errorMsg}
         onChange={handleAdditionalTagChange}
-        onKeyPress={handleInputKeyPress}
         onAddition={handleTagAddition}
       />
       <Box className={classes.box}>{renderChips()}</Box>

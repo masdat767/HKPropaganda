@@ -1,188 +1,151 @@
-import React, { useState, useEffect, useRef } from "react"
-import { Layout, SEO } from ".."
-import { getGame, postGame } from "../../service/api"
-import classnames from "classnames"
-import _ from "lodash"
+import React, { useReducer, useEffect } from "react"
+import Box from "@material-ui/core/Box"
+import Container from "@material-ui/core/Container"
+import CardMedia from "@material-ui/core/CardMedia"
+import Typography from "@material-ui/core/Typography"
+import Button from "@material-ui/core/Button"
+import get from "lodash/get"
 
-import {
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-  CircularProgress,
-  TextField,
-} from "@material-ui/core"
+import { SEO } from ".."
+import { getGame, postGame, getTags } from "../../service/api"
+import TagSelect from "./TagSelect"
+import TagSuggest from "./TagSugget"
+import Loader from "./Loader"
+import { initialState, reducer } from "./gameReducer"
+import { useStyles } from "./gameStyles"
 
-import "../../theme/default.css"
-import styles from "./game.module.css"
+// import mockData from "./mock.json"
+// import mockTags from "./mockTag.json"
 
-const Game = () => {
-  const [isloading, setLoading] = useState(true)
-  const [imageList, setImageList] = useState([])
-  const [imageCount, setImageCount] = useState(0)
-  // 0 => Before game
-  // 1 => Game
-  // 2 => End game
-  const [stage, setStage] = useState(0)
-  const [isImgLoading, setImgLoading] = useState(true)
-  const [approveTagList, setApproveTagList] = useState([])
-  const [otherTagList, setOtherTagList] = useState([])
-  const [otherTagInput, setOtherTagInput] = useState("")
-
-  useEffect(() => {
-    getGame().then(response => {
-      console.log("response.data", response.data)
-      setLoading(false)
-      setImageList(response.data)
-    })
+const createPostData = (id, selectedTags, customTags) => {
+  const approve_tags = Object.keys(selectedTags).reduce((acc, key) => {
+    return selectedTags[key] ? [...acc, { id: key }] : acc
   }, [])
 
-  useEffect(() => {
-    if (imageCount % 10 === 4) {
-      getGame().then(response => {
-        setImageList(imageList.concat(response.data))
-      })
-    }
-  }, [imageCount])
-
-  console.log("image list", imageList)
-
-  const beforeGame = () => {
-    const startOnPress = () => {
-      setStage(1)
-    }
-
-    return (
-      <Card className={styles.card}>
-        <CardContent className={styles.cardContent}>
-          <div className={styles.startGame}>Image Tagging system</div>
-        </CardContent>
-        <CardActions className={styles.cardButton}>
-          <div className={styles.startBtn}>
-            <Button onClick={startOnPress}>Start</Button>
-          </div>
-        </CardActions>
-      </Card>
-    )
+  return {
+    media_id: id,
+    input_tags: customTags,
+    approve_tags,
   }
+}
 
-  const gameContent = () => {
-    const imgItem = _.get(imageList, `${imageCount}`, {})
-    const imgSrc = _.get(imgItem, `files[0].path`, "")
-    const imgID = _.get(imgItem, `id`, "")
-    const tagList = _.get(imgItem, "tags", [])
+const Game = () => {
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const {
+    selectedTags,
+    propagandaData,
+    currentIndex,
+    loadingStatus,
+    isImgLoading,
+    customTagList,
+    existingTagList,
+  } = state
 
-    const startOnPress = () => {
-      let newInputTags = otherTagList
-      if (otherTagInput.length > 0) {
-        newInputTags.push({ name: otherTagInput })
-      }
-      const data = {
-        media_id: imgID,
-        approve_tags: approveTagList.map(id => ({ id })),
-        input_tags: newInputTags,
-      }
-      postGame(data).then(console.log)
-      setImageCount(imageCount + 1)
-      setImgLoading(true)
-      setApproveTagList([])
-      setOtherTagList([])
-      setOtherTagInput("")
-    }
+  const classes = useStyles({ isImgLoading })
+  const currentPropagandaData = propagandaData[currentIndex] || {}
+  const imageId = get(currentPropagandaData, "id")
+  const imageSrc = get(currentPropagandaData, "files.0.path", "#")
+  const tags = get(currentPropagandaData, "tags")
+  const isLoading = Object.keys(loadingStatus).some(key => loadingStatus[key])
 
-    const buttonListJSX = tagList.map(({ id, name }) => {
-      const isApprove = approveTagList.includes(id)
-      const tagOnClick = () => {
-        if (isApprove) {
-          setApproveTagList(prevState => prevState.filter(text => text !== id))
-        } else {
-          setApproveTagList(prevState => prevState.concat(id))
-        }
-      }
-      return (
-        <Button
-          color={isApprove ? "primary" : "default"}
-          className={styles.tagBtn}
-          onClick={tagOnClick}
-          key={id}
-          variant={isApprove ? "contained" : "outlined"}
-        >
-          {name}
-        </Button>
-      )
+  const fetchPropagandaData = (shouldShowLoader = true) => {
+    dispatch({ type: "FETCH_PROPAGANDA", payload: { shouldShowLoader } })
+
+    getGame().then(response => {
+      dispatch({ type: "FETCH_PROPAGANDA_SUCCESS", payload: response.data })
     })
-
-    return (
-      <Card className={styles.card}>
-        <CardContent className={styles.cardContent}>
-          <div className={styles.cardHeader}>{`Image ${imageCount + 1}`}</div>
-          <img
-            className={classnames(styles.cardImg, {
-              [styles.cardImgLoading]: isImgLoading,
-            })}
-            src={imgSrc}
-            alt={imgID}
-            onLoad={() => {
-              setImgLoading(false)
-            }}
-          />
-          {isImgLoading ? (
-            <div className={styles.loading}>
-              <CircularProgress />
-            </div>
-          ) : null}
-        </CardContent>
-        <CardActions className={styles.cardButton}>
-          <div className={styles.buttonGroup}>
-            <div className={styles.tagQuestion}>
-              Which follow tag is related to this image?
-            </div>
-            <div className={styles.tagList}>{buttonListJSX}</div>
-            <div className={styles.tagQuestion}>
-              Any other tag you want to add?
-            </div>
-            <div>
-              <TextField
-                label="Other Tag"
-                value={otherTagInput}
-                onChange={e => setOtherTagInput(e.target.value)}
-              />
-            </div>
-            <div className={styles.nextBtn}>
-              <Button
-                onClick={startOnPress}
-                variant="contained"
-                color="primary"
-              >
-                Next
-              </Button>
-            </div>
-          </div>
-        </CardActions>
-      </Card>
-    )
   }
 
-  const contentController = () => {
-    if (isloading) {
-      return <div>Loading</div>
-    }
+  const fetchTags = () => {
+    dispatch({ type: "GET_TAGS" })
 
-    switch (stage) {
-      case 0:
-        return beforeGame()
-      case 1:
-        return gameContent()
-      default:
-        return <div>error</div>
+    getTags().then(response => {
+      dispatch({ type: "GET_TAGS_SUCCESS", payload: response.data })
+    })
+  }
+
+  const toNextImage = () => {
+    const postData = createPostData(imageId, selectedTags, customTagList)
+
+    dispatch({ type: "NEXT_PROPAGANDA" })
+    postGame(postData).then(console.log)
+
+    // refetch when user loads the 8th image
+    if (propagandaData.length - currentIndex < 5) {
+      fetchPropagandaData(false)
     }
   }
+
+  useEffect(() => {
+    fetchTags()
+    fetchPropagandaData(true)
+  }, [])
 
   return (
-    <Layout>
+    <Box className={classes.box}>
       <SEO title="Game" />
-      {contentController()}
-    </Layout>
+      <Typography
+        className={classes.title}
+        variant="h4"
+        component="h1"
+        align="center"
+      >
+        Tag Propaganda: Image {currentIndex + 1}
+      </Typography>
+
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Box className={classes.contentBox}>
+          <Container className={classes.mediaContainer}>
+            {isImgLoading && <Loader />}
+
+            <CardMedia
+              className={classes.media}
+              image={imageSrc}
+              alt={imageId}
+              component="img"
+              onLoad={() => dispatch({ type: "IMAGE_ON_LOAD" })}
+            />
+          </Container>
+
+          <Container className={classes.tagContainer}>
+            <TagSelect
+              tags={tags}
+              selectedTags={selectedTags}
+              dispatch={dispatch}
+            />
+            <TagSuggest
+              customTagList={customTagList}
+              existingTagList={existingTagList}
+              updateReference={imageId}
+              dispatch={dispatch}
+            />
+            <Box className={classes.tagFooterContainer}>
+              <Box>
+                <Typography
+                  variant="subtitle1"
+                  component="h3"
+                  classes={{ root: classes.typoRoot }}
+                >
+                  The collected tags will be used in
+                </Typography>
+                <Typography
+                  variant="subtitle2"
+                  component="p"
+                  classes={{ root: classes.typoRoot }}
+                >
+                  www.mylennonbuddy.com
+                </Typography>
+              </Box>
+              <Button color="primary" variant="contained" onClick={toNextImage}>
+                Next
+              </Button>
+            </Box>
+          </Container>
+        </Box>
+      )}
+    </Box>
   )
 }
 
