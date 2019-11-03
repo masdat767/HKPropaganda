@@ -1,12 +1,13 @@
 import { login } from '../service/auth'
+import { getIsGamePlayer } from "../service/api"
 const isBrowser = typeof window !== `undefined`
 
-const getUser = () =>
-    window.localStorage.gatsbyUser
-        ? JSON.parse(window.localStorage.gatsbyUser)
-        : {}
+// const getUser = () =>
+//     window.localStorage.gatsbyUser
+//         ? JSON.parse(window.localStorage.gatsbyUser)
+//         : {}
 
-const setUser = user => (window.localStorage.gatsbyUser = JSON.stringify(user))
+// const setUser = user => (window.localStorage.gatsbyUser = JSON.stringify(user))
 
 export const handleLogin = ({ username, password }) => {
     if (!isBrowser) return false
@@ -26,18 +27,15 @@ export const handleLogin = ({ username, password }) => {
 
 export const isLoggedIn = () => {
     if (!isBrowser) return false
-
-    const user = getUser()
-
-    return !!user.email
+    //call
+    return getIsGamePlayer();
 }
 
-export const getCurrentUser = () => isBrowser && getUser()
+export const getCurrentUser = () => isBrowser && {}
 
 export const logout = callback => {
     if (!isBrowser) return
 
     console.log(`Ensuring the \`gatsbyUser\` property exists.`)
-    setUser({})
     callback()
 }
