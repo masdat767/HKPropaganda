@@ -1,8 +1,11 @@
 const config = {
-	baseUrl: "https://api.mylennonbuddy.com/api/",
-	authUrl: "https://api.mylennonbuddy.com/auth/google"
-	// baseUrl: process.env.NODE_ENV === 'development' ?
-	// 	"http://localhost:3000/api/" : "https://api.mylennonbuddy.com/api/"
+	baseUrl: process.env.NODE_ENV === 'development' 
+		? "https://api-dev.mylennonbuddy.com/api/",
+	 	: "https://api.mylennonbuddy.com/api/",
+
+	authUrl: process.env.NODE_ENV === 'development' 
+		? "https://api-dev.mylennonbuddy.com/auth/google"
+	 	: "https://api.mylennonbuddy.com/auth/google"
 };
 
 export default config
