@@ -1,6 +1,6 @@
 const config = {
 	baseUrl: process.env.NODE_ENV === 'development' 
-		? "https://api-dev.mylennonbuddy.com/api/",
+		? "https://api-dev.mylennonbuddy.com/api/"
 	 	: "https://api.mylennonbuddy.com/api/",
 
 	authUrl: process.env.NODE_ENV === 'development' 
