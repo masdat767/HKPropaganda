@@ -9,6 +9,7 @@ const useStyles = makeStyles(theme => ({
     left: "0",
     textAlign: "center",
     position: "absolute",
+    maxWidth: "100vw",
   },
   progress: {
     margin: theme.spacing(2),
