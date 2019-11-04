@@ -25,10 +25,10 @@ export const handleLogin = ({ username, password }) => {
     return false
 }
 
-export const isLoggedIn = () => {
+export const isLoggedIn = async () => {
     if (!isBrowser) return false
-    //call
-    return getIsGamePlayer();
+    let result = await getIsGamePlayer();
+    return result;
 }
 
 export const getCurrentUser = () => isBrowser && {}

@@ -3,6 +3,7 @@ import config from "../config"
 import { navigate } from "@reach/router"
 
 axios.defaults.baseURL = config.baseUrl
+axios.defaults.withCredentials = true
 const axiosSetting = {
   headers: {
     "content-type": "application/json; charset=utf-8",
@@ -55,7 +56,7 @@ export const postGame = payload => {
 }
 
 export const getIsGamePlayer = () => {
-  return axios.get("/game/getIsGamePlayer").then(response => {
+  return axios.get("/game/isGamePlayer").then(response => {
     const { status } = response
     if (status == 401){
       return false;
