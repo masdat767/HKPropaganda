@@ -1,6 +1,7 @@
 import axios from "axios"
 import config from "../config"
 import { navigate } from "@reach/router"
+import get from "lodash/get"
 
 axios.defaults.baseURL = config.baseUrl
 axios.defaults.withCredentials = true
@@ -46,7 +47,7 @@ export const getGame = () => {
         navigate(`/game/login`)
         break
       default:
-        return response
+        return response.data
     }
   })
 }
@@ -56,13 +57,16 @@ export const postGame = payload => {
 }
 
 export const getIsGamePlayer = () => {
-  return axios.get("/game/isGamePlayer").then(response => {
-    const { status } = response
-    if (status == 401){
-      return false;
-    }
-    return true;
-  })
+  return axios
+    .get("/game/isGamePlayer")
+    .then(() => {
+      return true
+    })
+    .catch(err => {
+      const status = get(err, "response.status")
+
+      if (status === 401) {
+        return false
+      }
+    })
 }
-
-
