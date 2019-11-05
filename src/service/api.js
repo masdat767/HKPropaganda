@@ -56,13 +56,16 @@ export const postGame = payload => {
 }
 
 export const getIsGamePlayer = () => {
-  return axios.get("/game/isGamePlayer").then(response => {
-    const { status } = response
-    if (status == 401){
-      return false;
-    }
-    return true;
-  })
+  return axios
+    .get("/game/isGamePlayer")
+    .then(() => {
+      return true
+    })
+    .catch(err => {
+      const { status } = err.response
+
+      if (status === 401) {
+        return false
+      }
+    })
 }
-
-
