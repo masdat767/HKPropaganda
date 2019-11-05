@@ -52,7 +52,7 @@ const Game = () => {
     dispatch({ type: "FETCH_PROPAGANDA", payload: { shouldShowLoader } })
 
     getGame().then(response => {
-      dispatch({ type: "FETCH_PROPAGANDA_SUCCESS", payload: response.data })
+      dispatch({ type: "FETCH_PROPAGANDA_SUCCESS", payload: response })
     })
   }
 
@@ -60,7 +60,7 @@ const Game = () => {
     dispatch({ type: "GET_TAGS" })
 
     getTags().then(response => {
-      dispatch({ type: "GET_TAGS_SUCCESS", payload: response.data })
+      dispatch({ type: "GET_TAGS_SUCCESS", payload: response })
     })
   }
 

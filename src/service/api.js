@@ -47,7 +47,7 @@ export const getGame = () => {
         navigate(`/game/login`)
         break
       default:
-        return response
+        return response.data
     }
   })
 }

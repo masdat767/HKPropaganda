@@ -1,4 +1,4 @@
-const initialState = {
+export const initialState = {
   existingTagList: [],
   propagandaData: [],
   selectedTags: [],
@@ -10,7 +10,7 @@ const initialState = {
   currentIndex: 0,
 }
 
-function reducer(state, action) {
+export const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_PROPAGANDA": {
       const { shouldShowLoader } = action.payload
@@ -116,5 +116,3 @@ function reducer(state, action) {
       throw new Error()
   }
 }
-
-export { initialState, reducer }

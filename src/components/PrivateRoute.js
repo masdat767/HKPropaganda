@@ -15,9 +15,9 @@ const PrivateRoute = ({ component: Component, location, ...rest }) => {
         navigate(`/game/login`)
 
         setRenderComponent(<Login />)
+      } else {
+        setRenderComponent(<Component {...rest} />)
       }
-
-      setRenderComponent(<Component {...rest} />)
     })
   }, [])
 
