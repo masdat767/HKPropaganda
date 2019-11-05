@@ -6,16 +6,13 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import get from "lodash/get"
 
-import { SEO } from ".."
+import { SEO } from "../"
 import { getGame, postGame, getTags } from "../../service/api"
 import TagSelect from "./TagSelect"
 import TagSuggest from "./TagSugget"
 import Loader from "./Loader"
 import { initialState, reducer } from "./gameReducer"
 import { useStyles } from "./gameStyles"
-
-// import mockData from "./mock.json"
-// import mockTags from "./mockTag.json"
 
 const createPostData = (id, selectedTags, customTags) => {
   const approve_tags = Object.keys(selectedTags).reduce((acc, key) => {
@@ -36,12 +33,11 @@ const Game = () => {
     propagandaData,
     currentIndex,
     loadingStatus,
-    isImgLoading,
     customTagList,
     existingTagList,
   } = state
 
-  const classes = useStyles({ isImgLoading })
+  const classes = useStyles({ isImgLoading: loadingStatus.image })
   const currentPropagandaData = propagandaData[currentIndex] || {}
   const imageId = get(currentPropagandaData, "id")
   const imageSrc = get(currentPropagandaData, "files.0.path", "#")
@@ -98,7 +94,7 @@ const Game = () => {
       ) : (
         <Box className={classes.contentBox}>
           <Container className={classes.mediaContainer}>
-            {isImgLoading && <Loader />}
+            {loadingStatus.image && <Loader />}
 
             <CardMedia
               className={classes.media}

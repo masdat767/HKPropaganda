@@ -1,12 +1,18 @@
 .form {
-  margin: 1rem 4em;
   text-align: center;
+  color: #333;
 }
 
-.form > h2,
+.form > h2 {
+  font-size: 3em;
+  font-weight: bold;
+  margin: 0;
+}
+
 .form > p {
-  text-align: center;
-  color: #fcff66;
+  font-size: 1.25em;
+  width: 50%;
+  margin: 1em auto 2.5em auto;
 }
 
 .game__logo {
@@ -33,20 +39,23 @@
 }
 
 .form__button {
-  width: 220px;
-  height: 48px;
-  background: #FFFFFF;
-  border-radius: 4.04px;
-  border: 0;
-  color: #4F4F4F;
-  font-family: Roboto;
-  font-style: normal;
+  background: #2d9312;
+  border: 3px solid black;
+  color: black;
+  border-radius: 20px;
+  padding: 10px 40px;
+}
+
+.form__button > p {
   font-weight: bold;
-  font-size: 18px;
-  line-height: 21px;
-  margin-top: 0.5rem;
-  padding: 0.25rem 1rem;
-  transition: background-color 150ms linear;
+  font-size: 1.5em;
+  letter-spacing: 20px;
+  margin: 0 0 0 20px;
+}
+
+.form__button > span {
+  letter-spacing: 3px;
+  margin-left: 3px;
 }
 
 .form__button:hover {
@@ -57,4 +66,31 @@
 .form__button:active,
 .form__button:focus {
   background-color: color(rebeccapurple lightness(-20%));
+}
+
+@media (max-width: 600px) {
+  .form > h2 {
+    font-size: 2em;
+  }
+
+  .form > p {
+    font-size: 1em;
+    width: 80%;
+    margin: 1.7em auto;
+  }
+
+  .form__button {
+    padding: 5px 50px;
+  }
+
+  .form__button > p {
+    font-size: 1.25em;
+    letter-spacing: 10px;
+    margin: 0 0 0 10px;
+  }
+
+  .form__button > span {
+    letter-spacing: unset;
+    margin-left: unset;
+  }
 }
