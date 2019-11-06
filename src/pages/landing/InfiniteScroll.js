@@ -6,7 +6,7 @@ import { CircularProgress } from "@material-ui/core"
 
 import HorizotalList from "./HorizotalList"
 
-const InfiniteScroll = ({ picList, updateScroll }, ref) => {
+const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
   const [firstList, setFirstList] = useState([])
   const [secondList, setSecondList] = useState([])
   const [thirdList, setThirdList] = useState([])
@@ -39,7 +39,7 @@ const InfiniteScroll = ({ picList, updateScroll }, ref) => {
     const htmlTag = document.getElementsByTagName("html")[0]
     const infiniteHeight = _.get(infiniteRef, "current.scrollHeight", 0)
     const scrollHeight = htmlTag.scrollTop + htmlTag.clientHeight
-    if (scrollHeight > infiniteHeight && !isLoading) {
+    if (scrollHeight > infiniteHeight && !isLoading && hasMoreImage) {
       setLoading(true)
     }
   }
@@ -62,6 +62,38 @@ const InfiniteScroll = ({ picList, updateScroll }, ref) => {
     setLoading(false)
   }, [picList])
 
+  const renderProgress = () => {
+    if (!hasMoreImage) {
+      return (
+        <div
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: "6px",
+            padding: "5px 12px",
+            background: "#fafad2",
+          }}
+        >
+          There are no more propagandise at the moment.
+        </div>
+      )
+    }
+
+    if (isLoading) {
+      return (
+        <div
+          style={{
+            margin: "24px 0",
+            textAlign: "center",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )
+    }
+
+    return null
+  }
+
   return (
     <>
       <div
@@ -77,16 +109,8 @@ const InfiniteScroll = ({ picList, updateScroll }, ref) => {
         <HorizotalList ref={secondRef} picList={secondList} key="Second" />
         <HorizotalList ref={thirdRef} picList={thirdList} key="Third" />
       </div>
-      {isLoading ? (
-        <div
-          style={{
-            margin: "24px 0",
-            textAlign: "center",
-          }}
-        >
-          <CircularProgress />
-        </div>
-      ) : null}
+
+      {renderProgress()}
     </>
   )
 }
