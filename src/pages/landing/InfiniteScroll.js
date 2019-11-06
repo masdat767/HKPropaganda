@@ -17,6 +17,8 @@ const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
 
   const infiniteRef = useRef(null)
 
+  const isLargeScreen = window.innerWidth > 600
+
   const mapping = [
     {
       label: "First",
@@ -101,13 +103,19 @@ const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
         style={{
           marginTop: 24,
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
+          gridTemplateColumns: isLargeScreen ? "repeat(3, 1fr)" : "auto",
           gridGap: 24,
         }}
       >
-        <HorizotalList ref={firstRef} picList={firstList} key="First" />
-        <HorizotalList ref={secondRef} picList={secondList} key="Second" />
-        <HorizotalList ref={thirdRef} picList={thirdList} key="Third" />
+        {isLargeScreen ? (
+          <React.Fragment>
+            <HorizotalList ref={firstRef} picList={firstList} key="First" />
+            <HorizotalList ref={secondRef} picList={secondList} key="Second" />
+            <HorizotalList ref={thirdRef} picList={thirdList} key="Third" />
+          </React.Fragment>
+        ) : (
+          <HorizotalList ref={firstRef} picList={picList} key="First" />
+        )}
       </div>
 
       {renderProgress()}
