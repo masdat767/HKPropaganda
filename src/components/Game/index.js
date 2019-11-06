@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react"
+import React, { useReducer, useEffect, useRef } from "react"
 import Box from "@material-ui/core/Box"
 import Container from "@material-ui/core/Container"
 import CardMedia from "@material-ui/core/CardMedia"
@@ -26,6 +26,18 @@ const createPostData = (id, selectedTags, customTags) => {
   }
 }
 
+const getOptimizedSizingImgUrl = (width, url) => {
+  if (width < 600) {
+    return `${url}&w=320&h=320&fit=inside`
+  } else if (width < 1366) {
+    return `${url}&w=500&h=500&fit=inside`
+  } else if (width <= 1920) {
+    return `${url}&w=750&h=750&fit=inside`
+  } else {
+    return `${url}&w=1000&h=1000&fit=inside`
+  }
+}
+
 const Game = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const {
@@ -38,6 +50,8 @@ const Game = () => {
   } = state
 
   const classes = useStyles({ isImgLoading: loadingStatus.image })
+  const deviceDimensionsRef = useRef({ height: 0, width: 0 })
+
   const currentPropagandaData = propagandaData[currentIndex] || {}
   const imageId = get(currentPropagandaData, "id")
   const imageSrc = get(currentPropagandaData, "files.0.path", "#")
@@ -72,10 +86,19 @@ const Game = () => {
     }
   }
 
+  const updateDeviceDimensionInfo = () => {
+    const width = window.innerWidth
+    const height = window.innerHeight
+
+    deviceDimensionsRef.current = { width, height }
+  }
+
   useEffect(() => {
     fetchTags()
     fetchPropagandaData(true)
   }, [])
+
+  useEffect(updateDeviceDimensionInfo)
 
   return (
     <Box className={classes.box}>
@@ -98,7 +121,10 @@ const Game = () => {
 
             <CardMedia
               className={classes.media}
-              image={imageSrc}
+              image={getOptimizedSizingImgUrl(
+                deviceDimensionsRef.current.width,
+                imageSrc
+              )}
               alt={imageId}
               component="img"
               onLoad={() => dispatch({ type: "IMAGE_ON_LOAD" })}
