@@ -11,13 +11,12 @@ const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
   const [secondList, setSecondList] = useState([])
   const [thirdList, setThirdList] = useState([])
   const [isLoading, setLoading] = useState(false)
+  const [isLargeScreen, setIsLargeScreen] = useState(false)
+
   const firstRef = useRef(null)
   const secondRef = useRef(null)
   const thirdRef = useRef(null)
-
   const infiniteRef = useRef(null)
-
-  const isLargeScreen = window.innerWidth > 600
 
   const mapping = [
     {
@@ -48,6 +47,8 @@ const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
+    setIsLargeScreen(window.innerWidth > 600)
+
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
