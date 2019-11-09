@@ -6,7 +6,7 @@ import SearchIcon from "@material-ui/icons/Search"
 import { Image, Tag, Autocomplete } from "../../components"
 import _ from "lodash"
 
-import "./Banner.module.css"
+import styles from "./Banner.module.css"
 
 const Banner = ({ tagList, updateSearch }) => {
   const [selectedChip, setSelectedChip] = useState([])
@@ -72,6 +72,7 @@ const Banner = ({ tagList, updateSearch }) => {
             style={{
               textShadow: `0px 0px 4px black`,
             }}
+            className={styles["header"]}
           >
             Hong Kong Protest Propaganda Library
           </h1>
