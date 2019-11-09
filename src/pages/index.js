@@ -5,7 +5,7 @@ import { Banner, InfiniteScroll } from "./landing"
 
 import { Layout, SEO } from "../components"
 
-import "../theme/default.css";
+import "../theme/default.css"
 
 const IndexPage = () => {
   const [tagList, setTagList] = useState([])
@@ -13,9 +13,10 @@ const IndexPage = () => {
   const [picPage, setPicPage] = useState(0)
   const [selectedTagList, setSelectedTagList] = useState([])
   const [keyword, setKeyword] = useState("")
+  const [hasMoreImage, setHasMoreImage] = useState(true)
 
   useEffect(() => {
-    fetchMediaData(0)
+    fetchMediaData()
   }, [selectedTagList, keyword])
 
   useEffect(() => {
@@ -26,7 +27,6 @@ const IndexPage = () => {
     }
 
     fetchData()
-    fetchMediaData()
   }, [])
 
   const fetchMediaData = async () => {
@@ -35,12 +35,18 @@ const IndexPage = () => {
       q: keyword,
       page: picPage,
     }
-    const result = await searchMedia(searchPayload)
+    const { data } = await searchMedia(searchPayload)
+
+    if (data.length === 0) {
+      setHasMoreImage(false)
+
+      return
+    }
 
     setPicPage(picPage + 1)
-    setPicList(prevState => prevState.concat(result.data))
+    setPicList(picList.concat(data))
   }
- 
+
   const updateSearch = ({ updateKeyword, updateTagList }) => {
     if (updateKeyword !== keyword || updateTagList !== selectedTagList) {
       setKeyword(updateKeyword)
@@ -59,7 +65,11 @@ const IndexPage = () => {
   return (
     <Layout banner={banner()}>
       <SEO title="Home" />
-      <InfiniteScroll picList={picList} updateScroll={updateScroll} />
+      <InfiniteScroll
+        picList={picList}
+        updateScroll={updateScroll}
+        hasMoreImage={hasMoreImage}
+      />
     </Layout>
   )
 }
