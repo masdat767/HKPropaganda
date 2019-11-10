@@ -6,8 +6,8 @@ export const initialState = {
   loadingStatus: {
     tags: false,
     propaganda: false,
-    image: false,
   },
+  isImgLoading: false,
   currentIndex: 0,
 }
 
@@ -46,10 +46,7 @@ export const reducer = (state, action) => {
         selectedTags: [],
         customTagList: [],
         currentIndex: state.currentIndex + 1,
-        loadingStatus: {
-          ...state.loadingStatus,
-          image: true,
-        },
+        isImgLoading: true,
       }
     }
 
@@ -91,10 +88,7 @@ export const reducer = (state, action) => {
     case "IMAGE_ON_LOAD": {
       return {
         ...state,
-        loadingStatus: {
-          ...state.loadingStatus,
-          image: false,
-        },
+        isImgLoading: false,
       }
     }
 
