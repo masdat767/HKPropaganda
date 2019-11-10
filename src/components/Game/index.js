@@ -45,11 +45,12 @@ const Game = () => {
     propagandaData,
     currentIndex,
     loadingStatus,
+    isImgLoading,
     customTagList,
     existingTagList,
   } = state
 
-  const classes = useStyles({ isImgLoading: loadingStatus.image })
+  const classes = useStyles({ isImgLoading })
   const deviceDimensionsRef = useRef({ height: 0, width: 0 })
 
   const currentPropagandaData = propagandaData[currentIndex] || {}
@@ -117,7 +118,7 @@ const Game = () => {
       ) : (
         <Box className={classes.contentBox}>
           <Container className={classes.mediaContainer}>
-            {loadingStatus.image && <Loader />}
+            {isImgLoading && <Loader />}
 
             <CardMedia
               className={classes.media}
