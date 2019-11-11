@@ -40,7 +40,7 @@ const Image = ({ className, style, imgSrc }) => {
           }
         }
       }
-      propaganda2: file(relativePath: { eq: "propaganda2.png" }) {
+      landing_banner: file(relativePath: { eq: "landing_banner.jpg" }) {
         childImageSharp {
           fluid(maxWidth: 500, quality: 100) {
             ...GatsbyImageSharpFluid

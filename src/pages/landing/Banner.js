@@ -112,11 +112,11 @@ const Banner = ({ tagList, updateSearch }) => {
       <div
         style={{
           height: `100%`,
-          filter: `blur(4px) brightness(90%)`,
+          // filter: `blur(4px) brightness(90%)`,
         }}
       >
         <Image
-          imgSrc="propaganda2"
+          imgSrc="landing_banner"
           style={{
             height: `100%`,
           }}

@@ -2,6 +2,7 @@
   border-radius: 20px;
   border: 1px solid #a0a0a0;
   margin: 4px 2px;
+  background: #00000008;
 }
 
 @media (max-width: 600px) {
