@@ -122,6 +122,12 @@ const Autocomplete = ({ tagList, selectedChip, setSelectedChip, onSearch }) => {
               startAdornment: (
                 <InputAdornment position="start">
                   <SearchIcon />
+                  <Button
+                    style={{ width: "max-content" }}
+                    onClick={handleSearch}
+                  >
+                    搵文宣
+                  </Button>
                   {selectedChip.map(data => {
                     return (
                       <Chip
@@ -131,7 +137,6 @@ const Autocomplete = ({ tagList, selectedChip, setSelectedChip, onSearch }) => {
                       />
                     )
                   })}
-                  <Button style={{width: 'max-content'}} onClick={handleSearch}>搵文宣</Button>
                 </InputAdornment>
               ),
             }}

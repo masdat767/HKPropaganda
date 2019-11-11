@@ -1,0 +1,40 @@
+/* .Dialog {
+  margin: 48px 24px;
+} */
+
+.dialogContent {
+  margin: 0;
+}
+
+.imageHolder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  min-width: 500px;
+}
+
+.progress {
+  display: block;
+}
+
+.imageDisplayCard {
+  margin: auto;
+  max-height: 65vh;
+}
+
+.tagsWrapper {
+  margin: 24px 0;
+}
+
+@media (max-width: 600px) {
+  .imageHolder {
+    min-width: 200px;
+  }
+
+  .tagsWrapper {
+    font-size: 12px;
+    margin: 8px 0;
+  }
+}

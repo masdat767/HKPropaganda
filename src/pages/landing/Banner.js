@@ -45,106 +45,84 @@ const Banner = ({ tagList, updateSearch }) => {
     })
 
   return (
-    <>
-      <div
-        style={{
-          position: `relative`,
-          height: `400px`,
-          maxHeight: `400px`,
-        }}
-      >
+    <div className={styles.bannerWrapper}>
+      <div className={styles.banner}>
+        <h1
+          style={{
+            textShadow: `0px 0px 4px black`,
+          }}
+          className={styles["header"]}
+        >
+          Hong Kong Protest Propaganda Library
+        </h1>
         <div
           style={{
-            position: `absolute`,
-            top: 0,
-            left: 0,
-            zIndex: 100,
-            height: `100%`,
-            width: `100%`,
-            display: `flex`,
-            justifyContent: `center`,
-            alignItems: `center`,
-            color: `white`,
-            flexDirection: `column`,
+            textShadow: `0px 0px 4px black`,
           }}
         >
-          <h1
-            style={{
-              textShadow: `0px 0px 4px black`,
-            }}
-            className={styles["header"]}
-          >
-            Hong Kong Protest Propaganda Library
-          </h1>
-          <div
-            style={{
-              textShadow: `0px 0px 4px black`,
-            }}
-          >
-            搜羅所有文宣
-          </div>
-          <div
-            style={{
-              textShadow: `0px 0px 4px black`,
-            }}
-          >
-            印出嚟貼爆連儂牆
-          </div>
-
-          <SearchBar
-            placeholder="用標籤搵相關文宣，如黑警、831、721、高官護照"
-            tagList={tagList}
-            selectedChip={selectedChip}
-            setSelectedChip={setSelectedChip}
-            onSearch={onSearch}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-            margin="normal"
-            variant="outlined"
-          />
-
-          <div
-            style={{
-              display: `flex`,
-              width: `100%`,
-              maxWidth: `992px`,
-              textAlign: `left`,
-              flexWrap: `wrap`,
-              alignItems: `center`,
-            }}
-          >
-            <span
-              style={{
-                paddingRight: `4px`,
-                fontSize: `0.8rem`,
-                textShadow: `1px 1px 2px #333`,
-              }}
-            >
-              熱門字眼:
-            </span>
-            {tagListJSX}
-          </div>
+          搜羅所有文宣
         </div>
         <div
           style={{
-            height: `100%`,
-            filter: `blur(4px) brightness(90%)`,
+            textShadow: `0px 0px 4px black`,
           }}
         >
-          <Image
-            imgSrc="propaganda2"
+          印出嚟貼爆連儂牆
+        </div>
+
+        <SearchBar
+          placeholder="用標籤搵相關文宣，如黑警、831、721、高官護照"
+          tagList={tagList}
+          selectedChip={selectedChip}
+          setSelectedChip={setSelectedChip}
+          onSearch={onSearch}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          margin="normal"
+          variant="outlined"
+        />
+
+        <div
+          style={{
+            display: `flex`,
+            width: `100%`,
+            maxWidth: `992px`,
+            textAlign: `left`,
+            flexWrap: `wrap`,
+            alignItems: `center`,
+          }}
+        >
+          <span
             style={{
-              height: `100%`,
+              paddingRight: `4px`,
+              fontSize: `0.8rem`,
+              textShadow: `1px 1px 2px #333`,
             }}
-          />
+          >
+            熱門字眼:
+          </span>
+          {tagListJSX}
         </div>
       </div>
-    </>
+      <div
+        style={{
+          height: `100%`,
+          // filter: `blur(4px) brightness(90%)`,
+        }}
+      >
+        <Image
+          imgSrc="landing_banner"
+          style={{
+            height: `100%`,
+          }}
+        />
+      </div>
+    </div>
   )
 }
 

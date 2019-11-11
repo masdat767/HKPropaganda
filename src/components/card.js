@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
+import _ from "lodash"
 
 import { makeStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -7,36 +8,38 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import DialogContent from "@material-ui/core/DialogContent"
 import Dialog from "@material-ui/core/Dialog"
 import Grid from "@material-ui/core/Grid"
-import { Tag } from "."
+import CircularProgress from "@material-ui/core/CircularProgress"
 
-import _ from "lodash"
+import { Tag } from "."
+import "./card.css"
+import styles from "./card.module.css"
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open, imgData } = props
+  const [isImgLoading, setIsImgLoading] = useState(true)
   const { tags } = imgData
-  const imgSrc = _.get(imgData, "main_file.path", "")
+  const imgSrcOriginal = _.get(imgData, "main_file.path", "")
+  const imgSrcForDisplay = `${imgSrcOriginal}&w=600&h=600&fit=inside`
 
   function handleClose() {
     onClose(selectedValue)
   }
 
-  function handleDownload() {
-    let a = document.createElement("a")
-    a.href = imgSrc
-    a.download = imgSrc.split("/").pop()
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-  }
+  // function handleDownload() {
+  //   let a = document.createElement("a")
+  //   a.href = imgSrc
+  //   a.download = imgSrc.split("/").pop()
+  //   document.body.appendChild(a)
+  //   a.click()
+  //   document.body.removeChild(a)
+  // }
 
   return (
     <Dialog
+      className={`SimpleDialog ${styles.Dialog}`}
       onClose={handleClose}
       aria-labelledby="simple-dialog-title"
       open={open}
-      fullWidth={true}
-      maxWidth={`xl`}
-      scroll={`body`}
     >
       {/* <DialogTitle
         id="simple-dialog-title"
@@ -55,8 +58,9 @@ function SimpleDialog(props) {
           }}
         >
           <a
-            href={imgSrc}
+            href={imgSrcOriginal}
             target="_blank"
+            rel="noopener noreferrer"
             style={{
               textDecoration: "blink",
             }}
@@ -68,42 +72,34 @@ function SimpleDialog(props) {
           </a>
         </Grid>
 
-        <div
-          className="image-holder"
-          style={{
-            display: "flex",
-          }}
-        >
+        <div className={styles.imageHolder}>
+          {isImgLoading && <CircularProgress className={styles.progress} />}
           <img
-            src={imgSrc}
-            style={{
-              margin: "auto",
-              objectFit: `cover`,
+            className={styles.imageDisplayCard}
+            style={{ display: isImgLoading ? "none" : "block" }}
+            src={imgSrcForDisplay}
+            onLoad={() => {
+              setIsImgLoading(false)
             }}
           />
         </div>
 
-        <Grid
+        {/* <Grid
+          className={styles.tagsWrapper}
           container
           direction="row"
           justify="space-between"
           alignItems="center"
-          style={{
-            margin: "24px 0",
-          }}
-        >
-          <div>
-            <span> 標籤: </span>
+        > */}
+        <div className={styles.tagsWrapper}>
+          <span>標籤:</span>
+          <div className={styles.tagsContainer}>
             {tags.map(({ id, name }) => (
               <Tag tagText={name} key={id} />
             ))}
           </div>
-          <div>
-            {/* <Button variant="outlined" color="primary">
-              分享
-            </Button> */}
-          </div>
-        </Grid>
+        </div>
+        {/* </Grid> */}
       </DialogContent>
     </Dialog>
   )
@@ -123,14 +119,16 @@ SimpleDialog.propTypes = {
 
 const Card = ({ className, CardUrl, CardText, imgData }) => {
   const [open, setOpen] = React.useState(false)
-  const imgSrc = _.get(imgData, "main_file.path", "")
+  const imgSrc = _.get(imgData, "main_file.path", "") + "&w=360"
 
-  function handleClickOpen(e) {
+  const handleClickOpen = () => {
     setOpen(true)
+    document.body.style.overflowY = "hidden"
   }
 
-  const handleClose = value => {
+  const handleClose = () => {
     setOpen(false)
+    document.body.style.overflowY = "auto"
   }
 
   return (
@@ -150,9 +148,9 @@ const Card = ({ className, CardUrl, CardText, imgData }) => {
           }}
         />
       </Button>
-      {open ? (
+      {open && (
         <SimpleDialog open={open} onClose={handleClose} imgData={imgData} />
-      ) : null}
+      )}
     </>
   )
 }

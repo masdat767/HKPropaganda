@@ -6,6 +6,8 @@ import { Button } from "@material-ui/core"
 
 import _ from "lodash"
 
+import "./tag.css"
+
 /**
  * This component is the Tag.
  * @param {string} className - class name
@@ -15,20 +17,7 @@ import _ from "lodash"
 
 const Tag = ({ className, tagText, ...otherProps }) => {
   return (
-    <Button
-      {...otherProps}
-      className={className}
-      style={{
-        margin: `4px 2px`,
-        border: `1px solid #A0A0A0`,
-        borderRadius: `20px`,
-        fontSize: `0.8rem`,
-        color: `white`,
-        textShadow: `1px 1px 2px #333`,
-        textTransform: "capitalize",
-      }}
-      variant="outlined"
-    >
+    <Button {...otherProps} className={className || "tag"} variant="outlined">
       {tagText}
     </Button>
   )
@@ -37,13 +26,11 @@ const Tag = ({ className, tagText, ...otherProps }) => {
 Tag.defaultProps = {
   className: "",
   style: {},
-  imgSrc: "placeholderImage",
 }
 
 Tag.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  imgSrc: PropTypes.string,
 }
 
 export default Tag

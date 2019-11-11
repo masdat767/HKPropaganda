@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import PropTypes from "prop-types"
-import _ from "lodash"
+import get from "lodash/get"
+import debounce from "lodash/debounce"
 
 import { CircularProgress } from "@material-ui/core"
 
@@ -38,18 +39,28 @@ const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
 
   const handleScroll = () => {
     const htmlTag = document.getElementsByTagName("html")[0]
-    const infiniteHeight = _.get(infiniteRef, "current.scrollHeight", 0)
+    const infiniteHeight = get(infiniteRef, "current.scrollHeight", 0)
     const scrollHeight = htmlTag.scrollTop + htmlTag.clientHeight
     if (scrollHeight > infiniteHeight && !isLoading && hasMoreImage) {
       setLoading(true)
     }
   }
 
+  const handleResize = () => {
+    setIsLargeScreen(window.innerWidth > 600)
+  }
+
+  const debouncedHandleResize = debounce(handleResize, 250)
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
+    window.addEventListener("resize", debouncedHandleResize)
     setIsLargeScreen(window.innerWidth > 600)
 
-    return () => window.removeEventListener("scroll", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", debouncedHandleResize)
+    }
   }, [])
 
   useEffect(() => {
