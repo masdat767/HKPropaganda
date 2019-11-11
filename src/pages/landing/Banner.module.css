@@ -1,9 +1,46 @@
+/* .Banner {
+  background: url(../../images/propaganda2.png);
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(4px) brightness(90%);
+} */
+
 .landingSearchBar {
   border-radius: 30px;
+}
+
+.bannerWrapper {
+  position: relative;
+  height: 400px;
+  max-height: 400px;
+}
+
+.banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  flex-direction: column;
 }
 
 @media (max-width: 600px) {
   .header {
     font-size: 1.25em;
+    text-align: center;
+  }
+
+  .bannerWrapper {
+    height: 300px;
+  }
+
+  .banner {
+    padding: 25px;
   }
 }

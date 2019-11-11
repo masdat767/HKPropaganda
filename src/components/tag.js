@@ -37,13 +37,13 @@ const Tag = ({ className, tagText, ...otherProps }) => {
 Tag.defaultProps = {
   className: "",
   style: {},
-  imgSrc: "placeholderImage",
+  // imgSrc: "placeholderImage",
 }
 
 Tag.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  imgSrc: PropTypes.string,
+  // imgSrc: PropTypes.string,
 }
 
 export default Tag

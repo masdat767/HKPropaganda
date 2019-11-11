@@ -1,0 +1,23 @@
+.imageHolder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  min-width: 500px;
+}
+
+.progress {
+  display: block;
+}
+
+.imageDisplayCard {
+  margin: auto;
+  max-height: 65vh;
+}
+
+@media (max-width: 600px) {
+  .imageHolder {
+    min-width: 200px;
+  }
+}
