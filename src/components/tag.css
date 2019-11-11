@@ -1,0 +1,11 @@
+.MuiButton-root.tag {
+  border-radius: 20px;
+  border: 1px solid #a0a0a0;
+  margin: 4px 2px;
+}
+
+@media (max-width: 600px) {
+  .MuiButton-root.tag {
+    padding: 2px 12px;
+  }
+}

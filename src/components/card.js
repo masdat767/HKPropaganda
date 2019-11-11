@@ -11,6 +11,7 @@ import Grid from "@material-ui/core/Grid"
 import CircularProgress from "@material-ui/core/CircularProgress"
 
 import { Tag } from "."
+import "./card.css"
 import styles from "./card.module.css"
 
 function SimpleDialog(props) {
@@ -35,7 +36,7 @@ function SimpleDialog(props) {
 
   return (
     <Dialog
-      className={styles.Dialog}
+      className={`SimpleDialog ${styles.Dialog}`}
       onClose={handleClose}
       aria-labelledby="simple-dialog-title"
       open={open}
@@ -83,27 +84,22 @@ function SimpleDialog(props) {
           />
         </div>
 
-        <Grid
+        {/* <Grid
+          className={styles.tagsWrapper}
           container
           direction="row"
           justify="space-between"
           alignItems="center"
-          style={{
-            margin: "24px 0",
-          }}
-        >
-          <div>
-            <span> 標籤: </span>
+        > */}
+        <div className={styles.tagsWrapper}>
+          <span>標籤:</span>
+          <div className={styles.tagsContainer}>
             {tags.map(({ id, name }) => (
               <Tag tagText={name} key={id} />
             ))}
           </div>
-          <div>
-            {/* <Button variant="outlined" color="primary">
-              分享
-            </Button> */}
-          </div>
-        </Grid>
+        </div>
+        {/* </Grid> */}
       </DialogContent>
     </Dialog>
   )
