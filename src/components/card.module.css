@@ -28,6 +28,16 @@
   margin: 24px 0;
 }
 
+.reportWrapper {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.flagIcon {
+  color: rgb(167, 30, 30);
+  vertical-align: middle;
+}
+
 @media (max-width: 600px) {
   .imageHolder {
     min-width: 200px;

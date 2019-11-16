@@ -11,6 +11,7 @@ import { getGame, postGame, getTags } from "../../service/api"
 import TagSelect from "./TagSelect"
 import TagSuggest from "./TagSugget"
 import Loader from "./Loader"
+import Dialog from "./Dialog"
 import { initialState, reducer } from "./gameReducer"
 import { useStyles } from "./gameStyles"
 
@@ -48,6 +49,8 @@ const Game = () => {
     isImgLoading,
     customTagList,
     existingTagList,
+    score,
+    shouldShowDialog,
   } = state
 
   const classes = useStyles({ isImgLoading })
@@ -75,16 +78,32 @@ const Game = () => {
     })
   }
 
-  const toNextImage = () => {
-    const postData = createPostData(imageId, selectedTags, customTagList)
-
-    dispatch({ type: "NEXT_PROPAGANDA" })
-    postGame(postData).then(console.log)
-
+  const checkRefetchPropagandaData = () => {
     // refetch when user loads the 8th image
     if (propagandaData.length - currentIndex < 5) {
       fetchPropagandaData(false)
     }
+
+    if (currentIndex % 10 === 9) {
+      dispatch({ type: "OPEN_DIALOG" })
+    }
+  }
+
+  const skip = () => {
+    dispatch({ type: "NEXT_PROPAGANDA" })
+    checkRefetchPropagandaData()
+  }
+
+  const toNextImage = () => {
+    const postData = createPostData(imageId, selectedTags, customTagList)
+
+    dispatch({ type: "NEXT_PROPAGANDA" })
+    postGame(postData).then(response => {
+      if (response.data.success) {
+        dispatch({ type: "INCREASE_SCORE", payload: 10 })
+      }
+    })
+    checkRefetchPropagandaData()
   }
 
   const updateDeviceDimensionInfo = () => {
@@ -92,6 +111,13 @@ const Game = () => {
     const height = window.innerHeight
 
     deviceDimensionsRef.current = { width, height }
+  }
+
+  const isNextBtnDisabled = () => {
+    return (
+      Object.keys(selectedTags).every(tag => !selectedTags[tag]) &&
+      customTagList.length === 0
+    )
   }
 
   useEffect(() => {
@@ -111,6 +137,9 @@ const Game = () => {
         align="center"
       >
         Tag Propaganda: Image {currentIndex + 1}
+      </Typography>
+      <Typography component="p" align="center">
+        Score: {score}
       </Typography>
 
       {isLoading ? (
@@ -144,6 +173,23 @@ const Game = () => {
               updateReference={imageId}
               dispatch={dispatch}
             />
+            <Box className={classes.tagBtnContainer}>
+              <Button
+                className={classes.skipBtn}
+                variant="contained"
+                onClick={skip}
+              >
+                Skip
+              </Button>
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={isNextBtnDisabled()}
+                onClick={toNextImage}
+              >
+                Next
+              </Button>
+            </Box>
             <Box className={classes.tagFooterContainer}>
               <Box>
                 <Typography
@@ -161,12 +207,16 @@ const Game = () => {
                   www.mylennonbuddy.com
                 </Typography>
               </Box>
-              <Button color="primary" variant="contained" onClick={toNextImage}>
-                Next
-              </Button>
             </Box>
           </Container>
         </Box>
+      )}
+
+      {shouldShowDialog && (
+        <Dialog
+          closeDialog={() => dispatch({ type: "CLOSE_DIALOG" })}
+          numOfTags={currentIndex}
+        />
       )}
     </Box>
   )

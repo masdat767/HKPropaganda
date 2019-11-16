@@ -1,15 +1,18 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { withStyles } from "@material-ui/core/styles"
-import { TextField, InputAdornment } from "@material-ui/core"
+import { InputAdornment } from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
 
 import { Image, Tag, Autocomplete } from "../../components"
-import _ from "lodash"
+import some from "lodash/some"
+import get from "lodash/get"
 
 import styles from "./Banner.module.css"
 
-const Banner = ({ tagList, updateSearch }) => {
+const Banner = ({ tagList, updateSearch, picList }) => {
   const [selectedChip, setSelectedChip] = useState([])
+  const [randomBgSrc, setRandomBgSrc] = useState("")
+
   const SearchBar = withStyles({
     root: {
       "& input + fieldset": {
@@ -34,7 +37,7 @@ const Banner = ({ tagList, updateSearch }) => {
       const { name } = tag
       const tagOnClick = () => {
         setSelectedChip(prevState => {
-          if (!_.some(prevState, tag)) {
+          if (!some(prevState, tag)) {
             return prevState.concat(tag)
           }
           return prevState
@@ -43,6 +46,15 @@ const Banner = ({ tagList, updateSearch }) => {
 
       return <Tag key={name} tagText={name} onClick={tagOnClick} />
     })
+
+  const getRandomBgSrc = () => {
+    const randomIdx = Math.floor(Math.random() * picList.length)
+    const backgroundImgSrc = get(picList, `${randomIdx}.main_file.path`, "")
+
+    setRandomBgSrc(backgroundImgSrc)
+  }
+
+  useEffect(getRandomBgSrc, [picList])
 
   return (
     <div className={styles.bannerWrapper}>
@@ -112,16 +124,12 @@ const Banner = ({ tagList, updateSearch }) => {
       <div
         style={{
           height: `100%`,
-          // filter: `blur(4px) brightness(90%)`,
+          backgroundImage: `url(${randomBgSrc})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.2,
         }}
-      >
-        <Image
-          imgSrc="landing_banner"
-          style={{
-            height: `100%`,
-          }}
-        />
-      </div>
+      ></div>
     </div>
   )
 }

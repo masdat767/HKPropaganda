@@ -23,6 +23,11 @@ const InputText = withStyles({
 const Autocomplete = ({ tagList, selectedChip, setSelectedChip, onSearch }) => {
   // Selected tags
   const [inputValue, setInputValue] = useState("")
+  const searchBtnClassName = () => {
+    return selectedChip.length > 0
+      ? "auto-complete__search-btn auto-complete__search-btn--with-tag"
+      : "auto-complete__search-btn"
+  }
 
   const onUpdate = inputValue => {
     if (inputValue && inputValue.length > 0) {
@@ -121,11 +126,11 @@ const Autocomplete = ({ tagList, selectedChip, setSelectedChip, onSearch }) => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon />
                   <Button
-                    style={{ width: "max-content" }}
+                    className={searchBtnClassName()}
                     onClick={handleSearch}
                   >
+                    <SearchIcon />
                     搵文宣
                   </Button>
                   {selectedChip.map(data => {

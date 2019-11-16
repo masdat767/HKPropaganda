@@ -15,7 +15,7 @@ const useStyle = makeStyles(theme => ({
   },
 }))
 
-const TagSelect = ({ tags = [], selectedTags = [], dispatch }) => {
+const TagSelect = ({ tags = [], selectedTags = {}, dispatch }) => {
   const classes = useStyle()
 
   const renderTags = () => {

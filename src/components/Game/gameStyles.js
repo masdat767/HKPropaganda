@@ -46,10 +46,18 @@ export const useStyles = makeStyles(theme => ({
       height: "unset",
     },
   },
-  tagFooterContainer: {
+  tagBtnContainer: {
     display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: "flex-end",
+    margin: "0 0 20px 0",
+    [theme.breakpoints.down("xs")]: {
+      margin: "8px 0",
+    },
+  },
+  skipBtn: {
+    marginRight: "20px",
+  },
+  tagFooterContainer: {
     margin: "0 5px",
   },
   typoRoot: {
