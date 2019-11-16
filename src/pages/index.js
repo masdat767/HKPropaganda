@@ -56,7 +56,9 @@ const IndexPage = () => {
     }
   }
 
-  const banner = () => <Banner tagList={tagList} updateSearch={updateSearch} />
+  const banner = () => (
+    <Banner tagList={tagList} updateSearch={updateSearch} picList={picList} />
+  )
 
   const updateScroll = () => {
     fetchMediaData()
