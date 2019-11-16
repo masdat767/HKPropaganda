@@ -10,6 +10,7 @@ export const initialState = {
   isImgLoading: false,
   currentIndex: 0,
   score: 0,
+  shouldShowDialog: false,
 }
 
 export const reducer = (state, action) => {
@@ -118,6 +119,20 @@ export const reducer = (state, action) => {
       return {
         ...state,
         score: Math.floor((state.score + action.payload) * 1.1),
+      }
+    }
+
+    case "OPEN_DIALOG": {
+      return {
+        ...state,
+        shouldShowDialog: true,
+      }
+    }
+
+    case "CLOSE_DIALOG": {
+      return {
+        ...state,
+        shouldShowDialog: false,
       }
     }
 

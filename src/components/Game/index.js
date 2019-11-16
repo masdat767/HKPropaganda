@@ -11,6 +11,7 @@ import { getGame, postGame, getTags } from "../../service/api"
 import TagSelect from "./TagSelect"
 import TagSuggest from "./TagSugget"
 import Loader from "./Loader"
+import Dialog from "./Dialog"
 import { initialState, reducer } from "./gameReducer"
 import { useStyles } from "./gameStyles"
 
@@ -49,6 +50,7 @@ const Game = () => {
     customTagList,
     existingTagList,
     score,
+    shouldShowDialog,
   } = state
 
   const classes = useStyles({ isImgLoading })
@@ -80,6 +82,10 @@ const Game = () => {
     // refetch when user loads the 8th image
     if (propagandaData.length - currentIndex < 5) {
       fetchPropagandaData(false)
+    }
+
+    if (currentIndex % 10 === 9) {
+      dispatch({ type: "OPEN_DIALOG" })
     }
   }
 
@@ -204,6 +210,13 @@ const Game = () => {
             </Box>
           </Container>
         </Box>
+      )}
+
+      {shouldShowDialog && (
+        <Dialog
+          closeDialog={() => dispatch({ type: "CLOSE_DIALOG" })}
+          numOfTags={currentIndex}
+        />
       )}
     </Box>
   )
