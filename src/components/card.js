@@ -1,16 +1,20 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
-import _ from "lodash"
+import get from "lodash/get"
 
-import { makeStyles } from "@material-ui/core/styles"
+// import { makeStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
-import DialogTitle from "@material-ui/core/DialogTitle"
+// import DialogTitle from "@material-ui/core/DialogTitle"
 import DialogContent from "@material-ui/core/DialogContent"
 import Dialog from "@material-ui/core/Dialog"
 import Grid from "@material-ui/core/Grid"
 import CircularProgress from "@material-ui/core/CircularProgress"
+import Box from "@material-ui/core/Box"
+import Tooltip from "@material-ui/core/Tooltip"
+import FlagIcon from "@material-ui/icons/Flag"
 
-import { Tag } from "."
+import { Tag } from "./"
+
 import "./card.css"
 import styles from "./card.module.css"
 
@@ -18,11 +22,18 @@ function SimpleDialog(props) {
   const { onClose, selectedValue, open, imgData } = props
   const [isImgLoading, setIsImgLoading] = useState(true)
   const { tags } = imgData
-  const imgSrcOriginal = _.get(imgData, "main_file.path", "")
+  const imgSrcOriginal = get(imgData, "main_file.path", "")
   const imgSrcForDisplay = `${imgSrcOriginal}&w=600&h=600&fit=inside`
 
   function handleClose() {
     onClose(selectedValue)
+  }
+
+  const reportImage = () => {
+    console.log(
+      "%c==== custom-log: report ====",
+      "background: teal; color: #ffff6d"
+    )
   }
 
   // function handleDownload() {
@@ -70,6 +81,11 @@ function SimpleDialog(props) {
               下載
             </Button>
           </a>
+          <Tooltip title="Report" aria-label="report" placement="top">
+            <Box className={styles.reportWrapper} onClick={reportImage}>
+              <FlagIcon className={styles.flagIcon} />
+            </Box>
+          </Tooltip>
         </Grid>
 
         <div className={styles.imageHolder}>
@@ -119,7 +135,7 @@ SimpleDialog.propTypes = {
 
 const Card = ({ className, CardUrl, CardText, imgData }) => {
   const [open, setOpen] = React.useState(false)
-  const imgSrc = _.get(imgData, "main_file.path", "") + "&w=360"
+  const imgSrc = get(imgData, "main_file.path", "") + "&w=360"
 
   const handleClickOpen = () => {
     setOpen(true)
