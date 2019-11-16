@@ -75,16 +75,24 @@ const Game = () => {
     })
   }
 
+  const checkRefetchPropagandaData = () => {
+    // refetch when user loads the 8th image
+    if (propagandaData.length - currentIndex < 5) {
+      fetchPropagandaData(false)
+    }
+  }
+
+  const skip = () => {
+    dispatch({ type: "NEXT_PROPAGANDA" })
+    checkRefetchPropagandaData()
+  }
+
   const toNextImage = () => {
     const postData = createPostData(imageId, selectedTags, customTagList)
 
     dispatch({ type: "NEXT_PROPAGANDA" })
     postGame(postData).then(console.log)
-
-    // refetch when user loads the 8th image
-    if (propagandaData.length - currentIndex < 5) {
-      fetchPropagandaData(false)
-    }
+    checkRefetchPropagandaData()
   }
 
   const updateDeviceDimensionInfo = () => {
@@ -144,6 +152,18 @@ const Game = () => {
               updateReference={imageId}
               dispatch={dispatch}
             />
+            <Box className={classes.tagBtnContainer}>
+              <Button
+                className={classes.skipBtn}
+                variant="contained"
+                onClick={skip}
+              >
+                Skip
+              </Button>
+              <Button color="primary" variant="contained" onClick={toNextImage}>
+                Next
+              </Button>
+            </Box>
             <Box className={classes.tagFooterContainer}>
               <Box>
                 <Typography
@@ -161,9 +181,6 @@ const Game = () => {
                   www.mylennonbuddy.com
                 </Typography>
               </Box>
-              <Button color="primary" variant="contained" onClick={toNextImage}>
-                Next
-              </Button>
             </Box>
           </Container>
         </Box>
