@@ -1,7 +1,7 @@
 export const initialState = {
   existingTagList: [],
   propagandaData: [],
-  selectedTags: [],
+  selectedTags: {},
   customTagList: [],
   loadingStatus: {
     tags: false,
@@ -9,6 +9,7 @@ export const initialState = {
   },
   isImgLoading: false,
   currentIndex: 0,
+  score: 0,
 }
 
 export const reducer = (state, action) => {
@@ -110,6 +111,13 @@ export const reducer = (state, action) => {
           tags: false,
         },
         existingTagList: [...action.payload],
+      }
+    }
+
+    case "INCREASE_SCORE": {
+      return {
+        ...state,
+        score: Math.floor((state.score + action.payload) * 1.1),
       }
     }
 

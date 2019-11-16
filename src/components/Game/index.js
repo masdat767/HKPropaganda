@@ -48,6 +48,7 @@ const Game = () => {
     isImgLoading,
     customTagList,
     existingTagList,
+    score,
   } = state
 
   const classes = useStyles({ isImgLoading })
@@ -91,7 +92,11 @@ const Game = () => {
     const postData = createPostData(imageId, selectedTags, customTagList)
 
     dispatch({ type: "NEXT_PROPAGANDA" })
-    postGame(postData).then(console.log)
+    postGame(postData).then(response => {
+      if (response.data.success) {
+        dispatch({ type: "INCREASE_SCORE", payload: 10 })
+      }
+    })
     checkRefetchPropagandaData()
   }
 
@@ -100,6 +105,13 @@ const Game = () => {
     const height = window.innerHeight
 
     deviceDimensionsRef.current = { width, height }
+  }
+
+  const isNextBtnDisabled = () => {
+    return (
+      Object.keys(selectedTags).every(tag => !selectedTags[tag]) &&
+      customTagList.length === 0
+    )
   }
 
   useEffect(() => {
@@ -119,6 +131,9 @@ const Game = () => {
         align="center"
       >
         Tag Propaganda: Image {currentIndex + 1}
+      </Typography>
+      <Typography component="p" align="center">
+        Score: {score}
       </Typography>
 
       {isLoading ? (
@@ -160,7 +175,12 @@ const Game = () => {
               >
                 Skip
               </Button>
-              <Button color="primary" variant="contained" onClick={toNextImage}>
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={isNextBtnDisabled()}
+                onClick={toNextImage}
+              >
                 Next
               </Button>
             </Box>
