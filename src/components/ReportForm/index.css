@@ -1,0 +1,32 @@
+.ReportForm img {
+  max-width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ReportForm .tagWrapper {
+  margin: 8px 0;
+}
+
+.ReportForm .tag {
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 50px;
+  color: #666;
+}
+
+@media (max-width: 600px) {
+  .ReportForm .MuiDialog-paper {
+    margin: 0 24px;
+  }
+
+  .ReportForm img {
+    max-width: 75%;
+  }
+
+  .ReportForm .tag {
+    font-size: 12px;
+  }
+}

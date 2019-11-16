@@ -1,0 +1,14 @@
+.Loader {
+  min-width: 450px;
+  min-height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .Loader {
+    min-width: unset;
+    width: 85vw;
+  }
+}

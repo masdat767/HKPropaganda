@@ -13,13 +13,14 @@ import Box from "@material-ui/core/Box"
 import Tooltip from "@material-ui/core/Tooltip"
 import FlagIcon from "@material-ui/icons/Flag"
 
+import ReportForm from "./ReportForm"
 import { Tag } from "./"
 
 import "./card.css"
 import styles from "./card.module.css"
 
 function SimpleDialog(props) {
-  const { onClose, selectedValue, open, imgData } = props
+  const { onClose, selectedValue, open, imgData, setIsReportFormOpen } = props
   const [isImgLoading, setIsImgLoading] = useState(true)
   const { tags } = imgData
   const imgSrcOriginal = get(imgData, "main_file.path", "")
@@ -30,20 +31,9 @@ function SimpleDialog(props) {
   }
 
   const reportImage = () => {
-    console.log(
-      "%c==== custom-log: report ====",
-      "background: teal; color: #ffff6d"
-    )
+    onClose()
+    setIsReportFormOpen(true)
   }
-
-  // function handleDownload() {
-  //   let a = document.createElement("a")
-  //   a.href = imgSrc
-  //   a.download = imgSrc.split("/").pop()
-  //   document.body.appendChild(a)
-  //   a.click()
-  //   document.body.removeChild(a)
-  // }
 
   return (
     <Dialog
@@ -52,12 +42,6 @@ function SimpleDialog(props) {
       aria-labelledby="simple-dialog-title"
       open={open}
     >
-      {/* <DialogTitle
-        id="simple-dialog-title"
-      >
-        Title:
-      </DialogTitle> */}
-
       <DialogContent>
         <Grid
           container
@@ -100,13 +84,6 @@ function SimpleDialog(props) {
           />
         </div>
 
-        {/* <Grid
-          className={styles.tagsWrapper}
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-        > */}
         <div className={styles.tagsWrapper}>
           <span>標籤:</span>
           <div className={styles.tagsContainer}>
@@ -115,7 +92,6 @@ function SimpleDialog(props) {
             ))}
           </div>
         </div>
-        {/* </Grid> */}
       </DialogContent>
     </Dialog>
   )
@@ -134,7 +110,8 @@ SimpleDialog.propTypes = {
  */
 
 const Card = ({ className, CardUrl, CardText, imgData }) => {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const [isReportFormOpen, setIsReportFormOpen] = useState(false)
   const imgSrc = get(imgData, "main_file.path", "") + "&w=360"
 
   const handleClickOpen = () => {
@@ -164,8 +141,22 @@ const Card = ({ className, CardUrl, CardText, imgData }) => {
           }}
         />
       </Button>
+
       {open && (
-        <SimpleDialog open={open} onClose={handleClose} imgData={imgData} />
+        <SimpleDialog
+          open={open}
+          onClose={handleClose}
+          imgData={imgData}
+          setIsReportFormOpen={setIsReportFormOpen}
+        />
+      )}
+
+      {isReportFormOpen && (
+        <ReportForm
+          setIsReportFormOpen={setIsReportFormOpen}
+          imageSrc={imgSrc}
+          tags={imgData.tags}
+        />
       )}
     </>
   )
