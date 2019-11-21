@@ -11,6 +11,8 @@ export const initialState = {
   currentIndex: 0,
   score: 0,
   shouldShowDialog: false,
+  shouldShowHelpText: false,
+  isPepeSmiling: false,
 }
 
 export const reducer = (state, action) => {
@@ -119,7 +121,19 @@ export const reducer = (state, action) => {
       return {
         ...state,
         score: Math.floor((state.score + action.payload) * 1.1),
+        isPepeSmiling: true,
       }
+    }
+
+    case "RESET_SMILE": {
+      // if (state.score < 150) {
+      return {
+        ...state,
+        isPepeSmiling: false,
+      }
+      // }
+
+      // return state
     }
 
     case "OPEN_DIALOG": {
@@ -133,6 +147,13 @@ export const reducer = (state, action) => {
       return {
         ...state,
         shouldShowDialog: false,
+      }
+    }
+
+    case "TOGGLE_HELP_TEXT": {
+      return {
+        ...state,
+        shouldShowHelpText: !state.shouldShowHelpText,
       }
     }
 

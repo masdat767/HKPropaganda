@@ -102,7 +102,7 @@ const TagSuggest = ({
 
   return (
     <Card className={classes.card}>
-      <Typography>Any suggested tags?</Typography>
+      <Typography>有冇其他Tag想加?</Typography>
       <TagInput
         customTag={customTag}
         setCustomTag={setCustomTag}

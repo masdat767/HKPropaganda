@@ -40,7 +40,7 @@ const TagSelect = ({ tags = [], selectedTags = {}, dispatch }) => {
 
   return (
     <Card className={classes.card}>
-      <Typography component="h5">Any related tags below?</Typography>
+      <Typography component="h5">下面有冇相關Tag?</Typography>
       <CardActions>{renderTags()}</CardActions>
     </Card>
   )

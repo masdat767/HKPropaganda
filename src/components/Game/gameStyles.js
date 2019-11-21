@@ -7,12 +7,6 @@ export const useStyles = makeStyles(theme => ({
       margin: "8px 0",
     },
   },
-  title: {
-    [theme.breakpoints.down("xs")]: {
-      fontSize: "1.25rem",
-      marginBottom: 8,
-    },
-  },
   contentBox: {
     display: "flex",
     margin: "16px 0",
@@ -25,7 +19,26 @@ export const useStyles = makeStyles(theme => ({
     flex: "1",
     display: "flex",
     alignItems: "center",
+    justifyContent: "flex-start",
+    flexDirection: "column",
     position: "relative",
+  },
+  logoContainer: {
+    display: "flex",
+    alignItems: "center",
+    margin: "20px",
+    "& img": {
+      width: "150px",
+      marginRight: 30,
+      marginBottom: 0,
+    },
+    "& h2": {
+      marginBottom: 10,
+    },
+    "& p": {
+      fontSize: "14px",
+      marginBottom: 0,
+    },
   },
   media: props => ({
     maxHeight: "80vh",
@@ -40,15 +53,17 @@ export const useStyles = makeStyles(theme => ({
     flex: "1",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
-    height: "80vh",
+    justifyContent: "flex-start",
+    marginTop: 30,
     [theme.breakpoints.down("xs")]: {
       height: "unset",
+      marginTop: 0,
     },
   },
   tagBtnContainer: {
     display: "flex",
     justifyContent: "flex-end",
+    alignItems: "center",
     margin: "0 0 20px 0",
     [theme.breakpoints.down("xs")]: {
       margin: "8px 0",
@@ -56,6 +71,25 @@ export const useStyles = makeStyles(theme => ({
   },
   skipBtn: {
     marginRight: "20px",
+    border: "1px solid #000",
+    padding: "2px 8px",
+    height: "30px",
+    fontWeight: "bold",
+    fontSize: "14px",
+  },
+  nextBtnDisabled: {
+    padding: "6px 30px",
+    border: "2px solid transparent",
+  },
+  nextBtn: {
+    fontWeight: "bold",
+    backgroundColor: "#2d9312",
+    border: "2px solid black",
+    color: "black",
+    padding: "6px 30px",
+    "&:hover": {
+      backgroundColor: "#24770e",
+    },
   },
   tagFooterContainer: {
     margin: "0 5px",

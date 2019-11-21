@@ -68,6 +68,13 @@ const Image = ({ className, style, imgSrc }) => {
           }
         }
       }
+      pepe_logo: file(relativePath: { eq: "logo_my_lennon_buddy.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 500, quality: 100) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
     }
   `)
 
