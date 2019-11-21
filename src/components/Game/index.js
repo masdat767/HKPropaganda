@@ -1,6 +1,5 @@
 import React, { useReducer, useEffect, useRef } from "react"
 import get from "lodash/get"
-import { BrowserView, MobileView } from "react-device-detect"
 
 import Box from "@material-ui/core/Box"
 import Container from "@material-ui/core/Container"
@@ -63,6 +62,7 @@ const Game = () => {
     shouldShowDialog,
     shouldShowHelpText,
     isPepeSmiling,
+    isBrowserView,
   } = state
 
   const classes = useStyles({ isImgLoading })
@@ -76,6 +76,7 @@ const Game = () => {
   const isNextBtnDisabled =
     Object.keys(selectedTags).every(tag => !selectedTags[tag]) &&
     customTagList.length === 0
+  // const isBrowserView = deviceDimensionsRef.current.width > 600
 
   const fetchPropagandaData = (shouldShowLoader = true) => {
     dispatch({ type: "FETCH_PROPAGANDA", payload: { shouldShowLoader } })
@@ -129,14 +130,24 @@ const Game = () => {
     const height = window.innerHeight
 
     deviceDimensionsRef.current = { width, height }
+
+    if (width > 600) {
+      dispatch({ type: "UPDATE_DEVICE_VIEW_TYPE", payload: true })
+    } else {
+      dispatch({ type: "UPDATE_DEVICE_VIEW_TYPE", payload: false })
+    }
   }
 
   useEffect(() => {
     fetchTags()
     fetchPropagandaData(true)
-  }, [])
+    updateDeviceDimensionInfo()
+    window.addEventListener("resize", updateDeviceDimensionInfo)
 
-  useEffect(updateDeviceDimensionInfo)
+    return () => {
+      window.removeEventListener("resize", updateDeviceDimensionInfo)
+    }
+  }, [])
 
   return (
     <Box className={classes.box}>
@@ -147,7 +158,7 @@ const Game = () => {
       ) : (
         <Box className={classes.contentBox}>
           <Container className={classes.mediaContainer}>
-            <BrowserView>
+            {isBrowserView ? (
               <Box className={classes.logoContainer}>
                 <img src={Logo} alt="Logo" />
 
@@ -159,28 +170,29 @@ const Game = () => {
                   </p>
                 </Box>
               </Box>
-            </BrowserView>
-            <MobileView viewClassName={styles.scoreContainerMobileView}>
-              <ScoreInfo
-                currentIndex={currentIndex}
-                score={score}
-                isPepeSmiling={isPepeSmiling}
-              />
-              <button
-                className={styles.helpBtn}
-                onClick={() => dispatch({ type: "TOGGLE_HELP_TEXT" })}
-              >
-                <HelpOutlineIcon />
-              </button>
-              {shouldShowHelpText && (
-                <HelpText>
-                  <HighlightOffIcon
-                    className={styles.closeHelpTextBtn}
-                    onClick={() => dispatch({ type: "TOGGLE_HELP_TEXT" })}
-                  />
-                </HelpText>
-              )}
-            </MobileView>
+            ) : (
+              <div className={styles.scoreContainerMobileView}>
+                <ScoreInfo
+                  currentIndex={currentIndex}
+                  score={score}
+                  isPepeSmiling={isPepeSmiling}
+                />
+                <button
+                  className={styles.helpBtn}
+                  onClick={() => dispatch({ type: "TOGGLE_HELP_TEXT" })}
+                >
+                  <HelpOutlineIcon />
+                </button>
+                {shouldShowHelpText && (
+                  <HelpText>
+                    <HighlightOffIcon
+                      className={styles.closeHelpTextBtn}
+                      onClick={() => dispatch({ type: "TOGGLE_HELP_TEXT" })}
+                    />
+                  </HelpText>
+                )}
+              </div>
+            )}
 
             {isImgLoading && <Loader />}
 
@@ -199,14 +211,16 @@ const Game = () => {
           </Container>
 
           <Container className={classes.tagContainer}>
-            <BrowserView>
-              <ScoreInfo
-                currentIndex={currentIndex}
-                score={score}
-                isPepeSmiling={isPepeSmiling}
-              />
-              <HelpText />
-            </BrowserView>
+            {isBrowserView && (
+              <div>
+                <ScoreInfo
+                  currentIndex={currentIndex}
+                  score={score}
+                  isPepeSmiling={isPepeSmiling}
+                />
+                <HelpText />
+              </div>
+            )}
 
             <TagSelect
               tags={tags}

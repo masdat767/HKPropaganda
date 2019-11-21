@@ -13,6 +13,7 @@ export const initialState = {
   shouldShowDialog: false,
   shouldShowHelpText: false,
   isPepeSmiling: false,
+  isBrowserView: true,
 }
 
 export const reducer = (state, action) => {
@@ -126,14 +127,10 @@ export const reducer = (state, action) => {
     }
 
     case "RESET_SMILE": {
-      // if (state.score < 150) {
       return {
         ...state,
         isPepeSmiling: false,
       }
-      // }
-
-      // return state
     }
 
     case "OPEN_DIALOG": {
@@ -154,6 +151,13 @@ export const reducer = (state, action) => {
       return {
         ...state,
         shouldShowHelpText: !state.shouldShowHelpText,
+      }
+    }
+
+    case "UPDATE_DEVICE_VIEW_TYPE": {
+      return {
+        ...state,
+        isBrowserView: action.payload,
       }
     }
 
