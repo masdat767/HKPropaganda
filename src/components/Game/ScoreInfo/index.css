@@ -1,0 +1,61 @@
+.ScoreInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ScoreInfo .title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.ScoreInfo .score-label {
+  line-height: 70px;
+  font-weight: bold;
+}
+
+.ScoreInfo .score {
+  line-height: 70px;
+}
+
+.ScoreInfo .gameScoreBg {
+  height: 70px;
+  width: 270px;
+  padding-left: 90px;
+  padding-right: 50px;
+  background-image: url(../../../images/score_bg_normal_211119.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ScoreInfo .gameScoreBg--smile {
+  background-image: url(../../../images/score_bg_smile_211119.jpg);
+}
+
+@media (max-width: 600px) {
+  .ScoreInfo .score-label {
+    line-height: 40px;
+  }
+
+  .ScoreInfo .score {
+    line-height: 40px;
+  }
+
+  .ScoreInfo .title {
+    font-size: 1rem;
+  }
+
+  .ScoreInfo .gameScoreBg {
+    height: 40px;
+    width: 150px;
+    padding-left: 48px;
+    padding-right: 20px;
+  }
+
+  .ScoreInfo .scoreContainer {
+    margin-bottom: 10px;
+  }
+}

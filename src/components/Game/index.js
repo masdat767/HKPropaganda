@@ -1,19 +1,28 @@
 import React, { useReducer, useEffect, useRef } from "react"
+import get from "lodash/get"
+
 import Box from "@material-ui/core/Box"
 import Container from "@material-ui/core/Container"
 import CardMedia from "@material-ui/core/CardMedia"
 import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
-import get from "lodash/get"
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline"
+import HighlightOffIcon from "@material-ui/icons/HighlightOff"
 
 import { SEO } from "../"
-import { getGame, postGame, getTags } from "../../service/api"
 import TagSelect from "./TagSelect"
 import TagSuggest from "./TagSugget"
 import Loader from "./Loader"
 import Dialog from "./Dialog"
+import HelpText from "./HelpText"
+import ScoreInfo from "./ScoreInfo"
+
+import { getGame, postGame, getTags } from "../../service/api"
 import { initialState, reducer } from "./gameReducer"
 import { useStyles } from "./gameStyles"
+import styles from "./game.module.css"
+
+import Logo from "../../images/logo_my_lennon_buddy.png"
 
 const createPostData = (id, selectedTags, customTags) => {
   const approve_tags = Object.keys(selectedTags).reduce((acc, key) => {
@@ -51,6 +60,9 @@ const Game = () => {
     existingTagList,
     score,
     shouldShowDialog,
+    shouldShowHelpText,
+    isPepeSmiling,
+    isBrowserView,
   } = state
 
   const classes = useStyles({ isImgLoading })
@@ -61,6 +73,10 @@ const Game = () => {
   const imageSrc = get(currentPropagandaData, "files.0.path", "#")
   const tags = get(currentPropagandaData, "tags")
   const isLoading = Object.keys(loadingStatus).some(key => loadingStatus[key])
+  const isNextBtnDisabled =
+    Object.keys(selectedTags).every(tag => !selectedTags[tag]) &&
+    customTagList.length === 0
+  // const isBrowserView = deviceDimensionsRef.current.width > 600
 
   const fetchPropagandaData = (shouldShowLoader = true) => {
     dispatch({ type: "FETCH_PROPAGANDA", payload: { shouldShowLoader } })
@@ -101,6 +117,9 @@ const Game = () => {
     postGame(postData).then(response => {
       if (response.data.success) {
         dispatch({ type: "INCREASE_SCORE", payload: 10 })
+        setTimeout(() => {
+          dispatch({ type: "RESET_SMILE" })
+        }, 1000)
       }
     })
     checkRefetchPropagandaData()
@@ -111,57 +130,98 @@ const Game = () => {
     const height = window.innerHeight
 
     deviceDimensionsRef.current = { width, height }
-  }
 
-  const isNextBtnDisabled = () => {
-    return (
-      Object.keys(selectedTags).every(tag => !selectedTags[tag]) &&
-      customTagList.length === 0
-    )
+    if (width > 600) {
+      dispatch({ type: "UPDATE_DEVICE_VIEW_TYPE", payload: true })
+    } else {
+      dispatch({ type: "UPDATE_DEVICE_VIEW_TYPE", payload: false })
+    }
   }
 
   useEffect(() => {
     fetchTags()
     fetchPropagandaData(true)
-  }, [])
+    updateDeviceDimensionInfo()
+    window.addEventListener("resize", updateDeviceDimensionInfo)
 
-  useEffect(updateDeviceDimensionInfo)
+    return () => {
+      window.removeEventListener("resize", updateDeviceDimensionInfo)
+    }
+  }, [])
 
   return (
     <Box className={classes.box}>
       <SEO title="Game" />
-      <Typography
-        className={classes.title}
-        variant="h4"
-        component="h1"
-        align="center"
-      >
-        Tag Propaganda: Image {currentIndex + 1}
-      </Typography>
-      <Typography component="p" align="center">
-        Score: {score}
-      </Typography>
 
       {isLoading ? (
         <Loader />
       ) : (
         <Box className={classes.contentBox}>
           <Container className={classes.mediaContainer}>
+            {isBrowserView ? (
+              <Box className={classes.logoContainer}>
+                <img src={Logo} alt="Logo" />
+
+                <Box>
+                  <h2>文宣齊齊 Tag</h2>
+                  <p>
+                    文宣太多，單靠網站 Admin 好難 Tag
+                    晒全部文宣，特別製作呢個小遊戲，邀請大家一齊加 Tag！
+                  </p>
+                </Box>
+              </Box>
+            ) : (
+              <div className={styles.scoreContainerMobileView}>
+                <ScoreInfo
+                  currentIndex={currentIndex}
+                  score={score}
+                  isPepeSmiling={isPepeSmiling}
+                />
+                <button
+                  className={styles.helpBtn}
+                  onClick={() => dispatch({ type: "TOGGLE_HELP_TEXT" })}
+                >
+                  <HelpOutlineIcon />
+                </button>
+                {shouldShowHelpText && (
+                  <HelpText>
+                    <HighlightOffIcon
+                      className={styles.closeHelpTextBtn}
+                      onClick={() => dispatch({ type: "TOGGLE_HELP_TEXT" })}
+                    />
+                  </HelpText>
+                )}
+              </div>
+            )}
+
             {isImgLoading && <Loader />}
 
-            <CardMedia
-              className={classes.media}
-              image={getOptimizedSizingImgUrl(
-                deviceDimensionsRef.current.width,
-                imageSrc
-              )}
-              alt={imageId}
-              component="img"
-              onLoad={() => dispatch({ type: "IMAGE_ON_LOAD" })}
-            />
+            <div className={styles.imageContainer}>
+              <CardMedia
+                className={classes.media}
+                image={getOptimizedSizingImgUrl(
+                  deviceDimensionsRef.current.width,
+                  imageSrc
+                )}
+                alt={imageId}
+                component="img"
+                onLoad={() => dispatch({ type: "IMAGE_ON_LOAD" })}
+              />
+            </div>
           </Container>
 
           <Container className={classes.tagContainer}>
+            {isBrowserView && (
+              <div>
+                <ScoreInfo
+                  currentIndex={currentIndex}
+                  score={score}
+                  isPepeSmiling={isPepeSmiling}
+                />
+                <HelpText />
+              </div>
+            )}
+
             <TagSelect
               tags={tags}
               selectedTags={selectedTags}
@@ -182,9 +242,12 @@ const Game = () => {
                 Skip
               </Button>
               <Button
+                className={
+                  isNextBtnDisabled ? classes.nextBtnDisabled : classes.nextBtn
+                }
                 color="primary"
                 variant="contained"
-                disabled={isNextBtnDisabled()}
+                disabled={isNextBtnDisabled}
                 onClick={toNextImage}
               >
                 Next

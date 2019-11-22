@@ -68,3 +68,32 @@
   margin: 96px 48px;
   text-align: center;
 }
+
+.helpBtn {
+  display: block;
+  background: none;
+  border: none;
+  height: 24px;
+  margin: 10px 0 10px auto;
+  outline: none;
+}
+
+.imageContainer {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .scoreContainerMobileView {
+    width: 100%;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  .closeHelpTextBtn {
+    display: block !important;
+    margin-left: auto;
+  }
+}

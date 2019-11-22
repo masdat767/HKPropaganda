@@ -1,0 +1,30 @@
+.HelpText {
+  margin-left: 20px;
+}
+
+.HelpText h3 {
+  margin-bottom: 10px;
+}
+
+.HelpText h5 {
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.HelpText p {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .HelpText {
+    position: absolute;
+    background: #f5f5dc;
+    top: 40px;
+    right: 0px;
+    padding: 10px 15px 10px 25px;
+    width: 85vw;
+    border-radius: 5px;
+    box-shadow: 1px 2px rgba(0, 0, 0, 0.3);
+  }
+}
