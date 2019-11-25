@@ -65,7 +65,7 @@ function SimpleDialog(props) {
               下載
             </Button>
           </a>
-          <Tooltip title="Report" aria-label="report" placement="top">
+          <Tooltip title="提出問題" aria-label="report" placement="top">
             <Box className={styles.reportWrapper} onClick={reportImage}>
               <FlagIcon className={styles.flagIcon} />
             </Box>
@@ -155,6 +155,7 @@ const Card = ({ className, CardUrl, CardText, imgData }) => {
         <ReportForm
           setIsReportFormOpen={setIsReportFormOpen}
           imageSrc={imgSrc}
+          imageId={imgData.id}
           tags={imgData.tags}
         />
       )}

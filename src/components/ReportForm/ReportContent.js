@@ -1,4 +1,6 @@
 import React, { Fragment } from "react"
+import axios from "axios"
+
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
 import DialogActions from "@material-ui/core/DialogActions"
@@ -22,10 +24,9 @@ const ReportContent = ({
 }) => {
   return (
     <Fragment>
-      <DialogContent>
+      <DialogContent dividers>
         <DialogContentText className={styles.contentTitle}>
-          To report inaccurate or inappropriate content, please describe the
-          issue in the text field below
+          如發現有任問題, 可於下面欄位中提出
         </DialogContentText>
 
         <Box>
@@ -49,9 +50,9 @@ const ReportContent = ({
           rows="4"
           margin="normal"
           variant="outlined"
-          placeholder="What's wrong with this image?"
+          placeholder="你發現左咩野問題?"
           value={textInput}
-          error={errorMsg}
+          error={!!errorMsg}
           onChange={handleTextInputChange}
         />
         {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}
@@ -59,10 +60,10 @@ const ReportContent = ({
 
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          Cancel
+          取消
         </Button>
         <Button onClick={handleSubmit} color="secondary">
-          Submit
+          提交
         </Button>
       </DialogActions>
     </Fragment>

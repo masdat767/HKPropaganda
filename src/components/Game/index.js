@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useRef } from "react"
+import React, { useReducer, useEffect, useRef, Fragment } from "react"
 import get from "lodash/get"
 
 import Box from "@material-ui/core/Box"
@@ -171,7 +171,7 @@ const Game = () => {
                 </Box>
               </Box>
             ) : (
-              <div className={styles.scoreContainerMobileView}>
+              <Fragment>
                 <ScoreInfo
                   currentIndex={currentIndex}
                   score={score}
@@ -191,12 +191,11 @@ const Game = () => {
                     />
                   </HelpText>
                 )}
-              </div>
+              </Fragment>
             )}
 
-            {isImgLoading && <Loader />}
-
             <div className={styles.imageContainer}>
+              {isImgLoading && <Loader />}
               <CardMedia
                 className={classes.media}
                 image={getOptimizedSizingImgUrl(
