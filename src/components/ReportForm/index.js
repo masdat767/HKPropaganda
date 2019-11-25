@@ -12,6 +12,12 @@ import config from "../../config"
 
 import "./index.css"
 
+const axiosSetting = {
+  headers: {
+    "content-type": "application/json; charset=utf-8",
+  },
+}
+
 export default function ReportForm({
   setIsReportFormOpen,
   imageSrc,
@@ -39,7 +45,7 @@ export default function ReportForm({
     setStep("LOADING")
 
     axios
-      .post(config.reportUrl, reportData)
+      .post(config.reportUrl, reportData, axiosSetting)
       .then(response => {
         if (response.data.result === "success") {
           setStep("REPORT_SUCCESS")
