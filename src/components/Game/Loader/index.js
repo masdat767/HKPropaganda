@@ -5,7 +5,6 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 
 const useStyles = makeStyles(theme => ({
   progressContainer: {
-    padding: "50% 0 0 0",
     left: "0",
     textAlign: "center",
     position: "absolute",

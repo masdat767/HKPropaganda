@@ -6,17 +6,15 @@ import Button from "@material-ui/core/Button"
 
 import styles from "./Feedback.module.css"
 
-const Feedback = ({ handleClose }) => {
+const Feedback = ({ handleClose, children }) => {
   return (
     <Fragment>
       <DialogContent className={styles.Feedback}>
-        <Typography>
-          Thank you for submitting an report, we will look into the issue ASAP
-        </Typography>
+        <Typography>{children}</Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary" variant="contained">
-          Confirm
+          確定
         </Button>
       </DialogActions>
     </Fragment>

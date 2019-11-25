@@ -59,9 +59,9 @@ export default function CustomizedDialogs({ closeDialog, numOfTags }) {
 
   const renderTextContent = () => {
     if (isQuitGame) {
-      return "Thank you for your contribution. See you next time!"
+      return `多謝你幫手tag圖，下次再見！`
     } else {
-      return `You have tagged ${numOfTags} images in a row, do you want to continue?`
+      return `玩左 ${numOfTags} 張，攰唔攰先？ 唔攰繼續黎，唔好比佢停！ 光復香港，時代革命！`
     }
   }
 
@@ -69,17 +69,17 @@ export default function CustomizedDialogs({ closeDialog, numOfTags }) {
     if (isQuitGame) {
       return (
         <Button autoFocus onClick={() => navigate("/")} color="primary">
-          Confirm
+          確定
         </Button>
       )
     } else {
       return (
         <Fragment>
           <Button onClick={() => setIsQuitGame(true)} color="secondary">
-            Next Time
+            下次再黎過
           </Button>
           <Button autoFocus onClick={closeDialog} color="primary">
-            Continue
+            梗係繼續玩
           </Button>
         </Fragment>
       )
@@ -94,7 +94,7 @@ export default function CustomizedDialogs({ closeDialog, numOfTags }) {
         open={true}
       >
         <DialogTitle id="game-continue-dialog" onClose={closeDialog}>
-          Info
+          提示
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>{renderTextContent()}</Typography>
