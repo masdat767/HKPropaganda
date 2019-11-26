@@ -29,7 +29,6 @@
     "react-helmet": "5.2.1"
   },
   "devDependencies": {
-    "cross-env": "^6.0.3",
     "eslint": "^6.6.0",
     "eslint-plugin-react": "^7.16.0",
     "prettier": "1.18.2"
@@ -40,7 +39,6 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "build:development": "cross-env GOOGLE_SPREADSHEET_URL=development npm run build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
