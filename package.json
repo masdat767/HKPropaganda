@@ -40,7 +40,7 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "build:development": "cross-env NODE_ENV=development npm run build",
+    "build:development": "cross-env GOOGLE_SPREADSHEET_URL=development npm run build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
