@@ -39,22 +39,21 @@ export default function ReportForm({
     setStep("LOADING")
 
     axios({
-	url: config.reportUrl,
-    	method: 'post',
-	params: reportData,
-  	headers: {
-    	    "content-type": "text/plain; charset=utf-8",
-  	},
-  	withCredentials: false
+      url: config.reportUrl,
+      method: 'post',
+      params: reportData,
+      headers: {
+        "content-type": "text/plain; charset=utf-8",
+      },
+      withCredentials: false
+    }).then(response => {
+      if (response.data.result === "success") {
+        setStep("REPORT_SUCCESS")
+      } else {
+        setStep("REPORT_FAILED")
+      }
     })
-      .then(response => {
-        if (response.data.result === "success") {
-          setStep("REPORT_SUCCESS")
-        } else {
-          setStep("REPORT_FAILED")
-        }
-      })
-      .catch(() => setStep("REPORT_FAILED"))
+    .catch(() => setStep("REPORT_FAILED"))
   }
 
   const handleTextInputChange = event => {
