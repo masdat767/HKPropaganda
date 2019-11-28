@@ -85,9 +85,10 @@ const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
             borderRadius: "6px",
             padding: "5px 12px",
             background: "#fafad2",
+            textAlign: "center",
           }}
         >
-          There are no more propagandise at the moment.
+          暫時冇更多文宣
         </div>
       )
     }
