@@ -68,6 +68,11 @@
   background-color: color(rebeccapurple lightness(-20%));
 }
 
+.form .textReminder {
+  font-size: 14px;
+  margin-top: 20px;
+}
+
 @media (max-width: 600px) {
   .form > h2 {
     font-size: 2em;

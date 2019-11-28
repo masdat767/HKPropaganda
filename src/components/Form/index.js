@@ -50,6 +50,10 @@ export default function Form({ handleSubmit, handleUpdate }) {
         <p>立即開始</p>
         <span>log in with Google</span>
       </button>
+
+      <p className={styles.textReminder}>
+        * 我地唔會儲低你個email, 如果真係唔放心, 可以用分身帳號登入
+      </p>
     </form>
   )
 }
