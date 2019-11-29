@@ -22,8 +22,10 @@ const demoPayload = {
   page: 0,
 }
 
-export const getTags = () => {
-  return axios.get("tags", axiosSetting).then(response => {
+export const getTags = withUnapprovedTags => {
+  const url = withUnapprovedTags ? "/tags?status_new=1" : "/tags"
+
+  return axios.get(url, axiosSetting).then(response => {
     return response.data
   })
 }

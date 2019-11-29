@@ -89,7 +89,7 @@ const Game = () => {
   const fetchTags = () => {
     dispatch({ type: "GET_TAGS" })
 
-    getTags().then(response => {
+    getTags(true).then(response => {
       dispatch({ type: "GET_TAGS_SUCCESS", payload: response })
     })
   }
