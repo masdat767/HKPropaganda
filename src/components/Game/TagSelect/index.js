@@ -15,7 +15,7 @@ const useStyle = makeStyles(theme => ({
   },
   tagContainer: {
     flexWrap: "wrap",
-    paddingLeft: 0,
+    padding: "8px 0px",
   },
   tag: {
     margin: "4px",
