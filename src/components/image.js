@@ -26,7 +26,7 @@ const Image = ({ className, style, imgSrc }) => {
           }
         }
       }
-      logo: file(relativePath: { eq: "gatsby-icon.png" }) {
+      logo: file(relativePath: { eq: "mylennonbuddy-icon.png" }) {
         childImageSharp {
           fluid(maxWidth: 300) {
             ...GatsbyImageSharpFluid
