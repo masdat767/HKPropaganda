@@ -13,6 +13,13 @@ const useStyle = makeStyles(theme => ({
       margin: "4px 0",
     },
   },
+  tagContainer: {
+    flexWrap: "wrap",
+    padding: "8px 0px",
+  },
+  tag: {
+    margin: "4px",
+  },
 }))
 
 const TagSelect = ({ tags = [], selectedTags = {}, dispatch }) => {
@@ -25,6 +32,7 @@ const TagSelect = ({ tags = [], selectedTags = {}, dispatch }) => {
       return (
         <Button
           key={id}
+          className={classes.tag}
           size="small"
           variant={variant}
           color="primary"
@@ -41,7 +49,7 @@ const TagSelect = ({ tags = [], selectedTags = {}, dispatch }) => {
   return (
     <Card className={classes.card}>
       <Typography component="h5">下面有冇相關Tag?</Typography>
-      <CardActions>{renderTags()}</CardActions>
+      <CardActions className={classes.tagContainer}>{renderTags()}</CardActions>
     </Card>
   )
 }
