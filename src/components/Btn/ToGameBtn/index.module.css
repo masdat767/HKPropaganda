@@ -32,13 +32,21 @@
   cursor: pointer;
 }
 
-@media (max-width: 600px) {
+.mHide {
+  display: block;
+}
+
+.mShow {
+  display: none;
+}
+
+@media (max-width: 960px) {
   .form__button {
-    padding: 5px 50px;
+    padding: 8px 20px;
   }
 
   .form__button > p {
-    font-size: 1.25em;
+    font-size: 12px;
     letter-spacing: 10px;
     margin: 0 0 0 10px;
   }
@@ -46,5 +54,25 @@
   .form__button > span {
     letter-spacing: unset;
     margin-left: unset;
+    font-size: 12px;
+  }
+
+  .countText {
+    font-size: 12px;
+  }
+
+  .mHide {
+    display: none;
+  }
+
+  .mShow {
+    display: block;
+  }
+
+  .form__button > p.mShow {
+    font-size: 12px;
+    font-weight: normal;
+    letter-spacing: unset;
+    margin: 0;
   }
 }

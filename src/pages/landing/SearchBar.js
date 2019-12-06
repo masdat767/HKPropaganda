@@ -120,6 +120,11 @@ const SearchBar = ({
     )
   }
 
+  const searchBtnClassName =
+    selectedChips.length > 0
+      ? styles.searchBtn + " " + styles.searchBtnReady
+      : styles.searchBtn
+
   useOutsideClick(wrapperRef, onOutsideClick)
 
   return (
@@ -128,13 +133,15 @@ const SearchBar = ({
         <div className={styles.selectedChips}>
           {selectedChips.map(chip => (
             <Chip
+              className={styles.selectedChip}
               key={chip.id}
               label={chip.name}
               onDelete={() => removeChip(chip.id)}
             />
           ))}
         </div>
-        <div ref={wrapperRef}>
+
+        <div className={styles.searchInputWrapper} ref={wrapperRef}>
           <input
             className={styles.searchInput}
             type="text"
@@ -144,7 +151,7 @@ const SearchBar = ({
             onKeyDown={handleInputKeyDown}
           />
           <button
-            className={styles.searchBtn}
+            className={searchBtnClassName}
             onClick={() => onSearch(inputValue, selectedChips)}
           >
             <SearchIcon />
@@ -155,12 +162,13 @@ const SearchBar = ({
         </div>
       </div>
 
-      <div>
-        <div>熱門字眼:</div>
-        <div>
+      <div className={styles.hotTagWrapper}>
+        <div className={styles.hotTagText}>熱門字眼:</div>
+        <div className={styles.hotTagChipWrapper}>
           {availableTags.slice(0, 5).map(tag => {
             return (
               <Chip
+                className={styles.hotTag}
                 key={tag.id}
                 label={tag.name}
                 onClick={() => addChip(tag)}
