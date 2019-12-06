@@ -1,12 +1,6 @@
-/* .selectedChip {
-  background: teal;
-  padding: 5px 10px;
-  margin: 5px;
-  border-radius: 5px;
-} */
-
 .searchBar {
   width: 60vw;
+  max-width: 800px;
 }
 
 .searchBox {
@@ -15,10 +9,6 @@
   background: #ffffff6d;
   box-shadow: 2px 1px 4px rgba(0, 0, 0, 0.3);
 }
-
-/* .selectedChips {
-  min-height: 40px;
-} */
 
 .selectedChip {
   margin: 0px 5px 8px 0;

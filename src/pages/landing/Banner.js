@@ -1,93 +1,15 @@
 import React, { useState, useEffect } from "react"
-import { withStyles } from "@material-ui/core/styles"
-import { InputAdornment, Typography } from "@material-ui/core"
-import SearchIcon from "@material-ui/icons/Search"
-
-import Button from "@material-ui/core/Button"
-// import Typography from "@material-ui/core/Typography"
-import { makeStyles } from "@material-ui/core/styles"
-import SearchBar from "./SearchBar"
-
-import { Image, Tag, Autocomplete } from "../../components"
-import ToGameBtn from "../../components/Btn/ToGameBtn"
-import some from "lodash/some"
+import Typography from "@material-ui/core/Typography"
 import get from "lodash/get"
+
+import SearchBar from "./SearchBar"
+import ToGameBtn from "../../components/Btn/ToGameBtn"
 
 import styles from "./Banner.module.css"
 import logo from "../../images/logo.svg"
 
-const useStyles = makeStyles({
-  yellowBtn: {
-    background: "yellow",
-    position: "absolute",
-    right: "20px",
-    top: "20px",
-    "&:hover": {
-      background: "#efef04",
-    },
-  },
-})
-
-// export default function Hook() {
-//   const classes = useStyles();
-//   return <Button className={classes.root}>Hook</Button>;
-// }
-
 const Banner = ({ tagList, updateSearch, picList }) => {
-  const classes = useStyles()
-  // const [searchInput, setSearchInput] = useState("")
-  // const [selectedChip, setSelectedChip] = useState([])
-
-  // // { tagList, updateSearch, picList }
-  // // console.log(
-  // //   "%c==== custom-log: props ====",
-  // //   "background: teal; color: #ffff6d",
-  // //   props
-  // // )
-
-  // console.log(
-  //   "%c==== custom-log: input ====",
-  //   "background: teal; color: #ffff6d",
-  //   searchInput
-  // )
-
-  // const handleSearchInputChange = event => {
-  //   setSearchInput(event.target.value)
-  // }
-
-  // return (
-  //   <div className={styles.banner}>
-  //     <Button className={classes.yellowBtn} variant="contained">
-  //       多個文檔下載
-  //     </Button>
-  //     <img className={styles.banner__logo} src={logo} alt="logo" />
-  //     <Typography variant="subtitle2" component="h3">
-  //       可能係全港最大o既文宣Library
-  //     </Typography>
-
-  //     <SearchBar
-  //       value={searchInput}
-  //       onChange={handleSearchInputChange}
-  //       tagList={tagList}
-  //       selectedChip={selectedChip}
-  //       setSelectedChip={setSelectedChip}
-  //     />
-  //   </div>
-  // )
-
-  // const [selectedChips, setSelectedChips] = useState([])
   const [randomBgSrc, setRandomBgSrc] = useState("")
-
-  // const SearchBar = withStyles({
-  //   root: {
-  //     "& input + fieldset": {
-  //       background: "white",
-  //       borderRadius: 30,
-  //       borderWidth: 1,
-  //       zIndex: -1,
-  //     },
-  //   },
-  // })(Autocomplete)
 
   const onSearch = (keyword, selectedChips) => {
     updateSearch({
@@ -95,22 +17,6 @@ const Banner = ({ tagList, updateSearch, picList }) => {
       updateTagList: selectedChips,
     })
   }
-
-  // const tagListJSX = tagList
-  //   .filter((a, index) => index < 8)
-  //   .map(tag => {
-  //     const { name } = tag
-  //     const tagOnClick = () => {
-  //       setSelectedChip(prevState => {
-  //         if (!some(prevState, tag)) {
-  //           return prevState.concat(tag)
-  //         }
-  //         return prevState
-  //       })
-  //     }
-
-  //     return <Tag key={name} tagText={name} onClick={tagOnClick} />
-  //   })
 
   const getRandomBgSrc = () => {
     const randomIdx = Math.floor(Math.random() * picList.length)

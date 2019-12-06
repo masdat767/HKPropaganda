@@ -12,6 +12,8 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 import Box from "@material-ui/core/Box"
 import Tooltip from "@material-ui/core/Tooltip"
 import FlagIcon from "@material-ui/icons/Flag"
+import ShareIcon from "@material-ui/icons/Share"
+import DownloadIcon from "@material-ui/icons/GetApp"
 
 import ReportForm from "./ReportForm"
 import { Tag } from "./"
@@ -112,10 +114,13 @@ SimpleDialog.propTypes = {
 const Card = ({ className, CardUrl, CardText, imgData }) => {
   const [open, setOpen] = useState(false)
   const [isReportFormOpen, setIsReportFormOpen] = useState(false)
+  const [shouldShowImageInfo, setShouldShowImageInfo] = useState(false)
   const imgSrc = get(imgData, "main_file.path", "") + "&w=360"
+  const imgSrcOriginal = get(imgData, "main_file.path", "")
 
   const handleClickOpen = () => {
     setOpen(true)
+    setShouldShowImageInfo(false)
     document.body.style.overflowY = "hidden"
   }
 
@@ -124,16 +129,29 @@ const Card = ({ className, CardUrl, CardText, imgData }) => {
     document.body.style.overflowY = "auto"
   }
 
+  const handleImageMouseEnter = () => {
+    setShouldShowImageInfo(true)
+  }
+
+  const handleImageMouseLeave = () => {
+    setShouldShowImageInfo(false)
+  }
+
   return (
-    <>
+    <div
+      onMouseEnter={handleImageMouseEnter}
+      onMouseLeave={handleImageMouseLeave}
+    >
       <Button
         onClick={handleClickOpen}
         style={{
           width: `100%`,
           display: `block`,
+          position: "relative",
         }}
       >
         <img
+          className={shouldShowImageInfo ? styles.imageDisplay : ""}
           src={imgSrc}
           style={{
             objectFit: `cover`,
@@ -141,6 +159,41 @@ const Card = ({ className, CardUrl, CardText, imgData }) => {
             borderRadius: "8px",
           }}
         />
+
+        {shouldShowImageInfo && (
+          <div className={styles.imageInfo}>
+            <div className={styles.imageInfo__tags}>
+              <p className={styles.imageInfo__title}>相關標籤:</p>
+              <ul className={styles.imageInfo__tagList}>
+                {imgData.tags.map(tag => {
+                  return (
+                    <li className={styles.imageInfo__tag} key={tag.id}>
+                      {tag.name}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+            <div className={styles.imageInfo__actionIcons}>
+              <div className={styles.imageInfo__actionsIconsBg}>
+                <a
+                  href={imgSrcOriginal}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    textDecoration: "blink",
+                    display: "flex",
+                  }}
+                  download
+                  onClick={event => event.stopPropagation()}
+                >
+                  <DownloadIcon className={styles.downloadIcon} />
+                </a>
+                <ShareIcon className={styles.shareIcon} />
+              </div>
+            </div>
+          </div>
+        )}
       </Button>
 
       {open && (
@@ -160,7 +213,7 @@ const Card = ({ className, CardUrl, CardText, imgData }) => {
           tags={imgData.tags}
         />
       )}
-    </>
+    </div>
   )
 }
 
