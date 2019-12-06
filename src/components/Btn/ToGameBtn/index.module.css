@@ -1,0 +1,50 @@
+.ToGameBtn {
+  text-align: center;
+}
+
+.countText {
+  margin: 0;
+}
+
+.form__button {
+  background: #2d9312;
+  border: 2px solid #000;
+  color: #000;
+  border-radius: 12px;
+  padding: 3px 25px;
+  margin: 6px 0;
+}
+
+.form__button > p {
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 10px;
+  margin: 0 0 0 10px;
+}
+
+.form__button > span {
+  font-size: 0.9em;
+  letter-spacing: 2px;
+  margin-left: 2px;
+}
+
+.form__button:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .form__button {
+    padding: 5px 50px;
+  }
+
+  .form__button > p {
+    font-size: 1.25em;
+    letter-spacing: 10px;
+    margin: 0 0 0 10px;
+  }
+
+  .form__button > span {
+    letter-spacing: unset;
+    margin-left: unset;
+  }
+}

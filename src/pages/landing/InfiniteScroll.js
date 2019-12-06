@@ -47,7 +47,7 @@ const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
   }
 
   const handleResize = () => {
-    setIsLargeScreen(window.innerWidth > 600)
+    setIsLargeScreen(window.innerWidth > 900)
   }
 
   const debouncedHandleResize = debounce(handleResize, 250)

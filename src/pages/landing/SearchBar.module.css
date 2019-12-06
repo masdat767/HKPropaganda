@@ -1,0 +1,65 @@
+/* .selectedChip {
+  background: teal;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 5px;
+} */
+
+.searchBar {
+  width: 60vw;
+}
+
+.searchBox {
+  border: 1px solid grey;
+}
+
+.selectedChips {
+  min-height: 32px;
+}
+
+.searchInput {
+  width: 85%;
+}
+
+.searchBtn {
+  width: 15%;
+}
+
+.searchBtn > * {
+  vertical-align: middle;
+}
+
+.suggestions {
+  position: absolute;
+  width: 49vw;
+  background: #eee;
+  margin-left: 1vw;
+  border: 1px solid #999;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+}
+
+.suggestion {
+  border-bottom: 1px solid #aaa;
+  cursor: pointer;
+  padding: 5px 20px;
+}
+
+.suggestionHighlight {
+  background: #ddd;
+}
+
+.suggestion:hover {
+  background: #ddd;
+}
+
+.suggestion:last-of-type {
+  border: none;
+}
+
+@media (max-width: 960px) {
+  .selectedChips {
+    overflow: auto;
+    display: flex;
+  }
+}

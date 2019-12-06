@@ -1,51 +1,116 @@
 import React, { useState, useEffect } from "react"
 import { withStyles } from "@material-ui/core/styles"
-import { InputAdornment } from "@material-ui/core"
+import { InputAdornment, Typography } from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
 
+import Button from "@material-ui/core/Button"
+// import Typography from "@material-ui/core/Typography"
+import { makeStyles } from "@material-ui/core/styles"
+import SearchBar from "./SearchBar"
+
 import { Image, Tag, Autocomplete } from "../../components"
+import ToGameBtn from "../../components/Btn/ToGameBtn"
 import some from "lodash/some"
 import get from "lodash/get"
 
 import styles from "./Banner.module.css"
+import logo from "../../images/logo.svg"
+
+const useStyles = makeStyles({
+  yellowBtn: {
+    background: "yellow",
+    position: "absolute",
+    right: "20px",
+    top: "20px",
+    "&:hover": {
+      background: "#efef04",
+    },
+  },
+})
+
+// export default function Hook() {
+//   const classes = useStyles();
+//   return <Button className={classes.root}>Hook</Button>;
+// }
 
 const Banner = ({ tagList, updateSearch, picList }) => {
-  const [selectedChip, setSelectedChip] = useState([])
+  const classes = useStyles()
+  // const [searchInput, setSearchInput] = useState("")
+  // const [selectedChip, setSelectedChip] = useState([])
+
+  // // { tagList, updateSearch, picList }
+  // // console.log(
+  // //   "%c==== custom-log: props ====",
+  // //   "background: teal; color: #ffff6d",
+  // //   props
+  // // )
+
+  // console.log(
+  //   "%c==== custom-log: input ====",
+  //   "background: teal; color: #ffff6d",
+  //   searchInput
+  // )
+
+  // const handleSearchInputChange = event => {
+  //   setSearchInput(event.target.value)
+  // }
+
+  // return (
+  //   <div className={styles.banner}>
+  //     <Button className={classes.yellowBtn} variant="contained">
+  //       多個文檔下載
+  //     </Button>
+  //     <img className={styles.banner__logo} src={logo} alt="logo" />
+  //     <Typography variant="subtitle2" component="h3">
+  //       可能係全港最大o既文宣Library
+  //     </Typography>
+
+  //     <SearchBar
+  //       value={searchInput}
+  //       onChange={handleSearchInputChange}
+  //       tagList={tagList}
+  //       selectedChip={selectedChip}
+  //       setSelectedChip={setSelectedChip}
+  //     />
+  //   </div>
+  // )
+
+  // const [selectedChips, setSelectedChips] = useState([])
   const [randomBgSrc, setRandomBgSrc] = useState("")
 
-  const SearchBar = withStyles({
-    root: {
-      "& input + fieldset": {
-        background: "white",
-        borderRadius: 30,
-        borderWidth: 1,
-        zIndex: -1,
-      },
-    },
-  })(Autocomplete)
+  // const SearchBar = withStyles({
+  //   root: {
+  //     "& input + fieldset": {
+  //       background: "white",
+  //       borderRadius: 30,
+  //       borderWidth: 1,
+  //       zIndex: -1,
+  //     },
+  //   },
+  // })(Autocomplete)
 
-  const onSearch = keyword => {
+  const onSearch = (keyword, selectedChips) => {
     updateSearch({
       updateKeyword: keyword,
-      updateTagList: selectedChip,
+      updateTagList: selectedChips,
     })
   }
 
-  const tagListJSX = tagList
-    .filter((a, index) => index < 8)
-    .map(tag => {
-      const { name } = tag
-      const tagOnClick = () => {
-        setSelectedChip(prevState => {
-          if (!some(prevState, tag)) {
-            return prevState.concat(tag)
-          }
-          return prevState
-        })
-      }
+  // const tagListJSX = tagList
+  //   .filter((a, index) => index < 8)
+  //   .map(tag => {
+  //     const { name } = tag
+  //     const tagOnClick = () => {
+  //       setSelectedChip(prevState => {
+  //         if (!some(prevState, tag)) {
+  //           return prevState.concat(tag)
+  //         }
+  //         return prevState
+  //       })
+  //     }
 
-      return <Tag key={name} tagText={name} onClick={tagOnClick} />
-    })
+  //     return <Tag key={name} tagText={name} onClick={tagOnClick} />
+  //   })
 
   const getRandomBgSrc = () => {
     const randomIdx = Math.floor(Math.random() * picList.length)
@@ -58,78 +123,46 @@ const Banner = ({ tagList, updateSearch, picList }) => {
 
   return (
     <div className={styles.bannerWrapper}>
-      <div className={styles.banner}>
-        <h1
-          style={{
-            textShadow: `0px 0px 4px black`,
-          }}
-          className={styles["header"]}
+      <div className={styles.header}>
+        {/* <Button className={classes.yellowBtn} variant="contained">
+          多個文檔下載
+        </Button> */}
+        <img className={styles.banner__logo} src={logo} alt="logo" />
+        <Typography
+          className={styles.banner__logoText}
+          variant="subtitle2"
+          component="h3"
         >
-          Hong Kong Protest Propaganda Library
-        </h1>
-        <div
-          style={{
-            textShadow: `0px 0px 4px black`,
-          }}
-        >
-          搜羅所有文宣
-        </div>
-        <div
-          style={{
-            textShadow: `0px 0px 4px black`,
-          }}
-        >
-          印出嚟貼爆連儂牆
-        </div>
+          可能係全港最大o既文宣Library
+        </Typography>
+      </div>
 
-        <SearchBar
-          placeholder="用標籤搵相關文宣，如黑警、831、721、高官護照"
-          tagList={tagList}
-          selectedChip={selectedChip}
-          setSelectedChip={setSelectedChip}
-          onSearch={onSearch}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-          margin="normal"
-          variant="outlined"
-        />
+      <div
+        style={{ backgroundImage: `url(${randomBgSrc})` }}
+        className={styles.backdropBlur}
+      />
 
-        <div
-          style={{
-            display: `flex`,
-            width: `100%`,
-            maxWidth: `992px`,
-            textAlign: `left`,
-            flexWrap: `wrap`,
-            alignItems: `center`,
-          }}
-        >
-          <span
-            style={{
-              paddingRight: `4px`,
-              fontSize: `0.8rem`,
-              textShadow: `1px 1px 2px #333`,
-            }}
+      <div className={styles.banner__hero}>
+        <SearchBar tagList={tagList} onSearch={onSearch} />
+
+        <div className={styles.toGameBtnGroup}>
+          <Typography variant="subtitle2" component="p">
+            你知道嗎?
+          </Typography>
+          <Typography variant="subtitle2" component="p">
+            每日平均有600張文宣出世, 每張文宣都要落tag先會喺度出現,
+            快d幫手一齊落tag啦!
+          </Typography>
+          <ToGameBtn />
+          {/* <Typography
+            className={styles.copyrightText}
+            variant="subtitle2"
+            component="p"
           >
-            熱門字眼:
-          </span>
-          {tagListJSX}
+            了解更多有關文宣版權信息
+          </Typography> */}
         </div>
       </div>
-      <div
-        style={{
-          height: `100%`,
-          backgroundImage: `url(${randomBgSrc})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: 0.2,
-        }}
-      ></div>
     </div>
   )
 }

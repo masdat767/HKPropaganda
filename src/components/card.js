@@ -138,6 +138,7 @@ const Card = ({ className, CardUrl, CardText, imgData }) => {
           style={{
             objectFit: `cover`,
             margin: `0`,
+            borderRadius: "8px",
           }}
         />
       </Button>
