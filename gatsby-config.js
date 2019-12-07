@@ -24,7 +24,7 @@ module.exports = {
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/mylennonbuddy-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/logoicon.svg`, // This path is relative to the root of the site.
       },
     },
     {
