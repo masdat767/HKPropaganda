@@ -39,7 +39,7 @@ const Banner = ({ tagList, updateSearch, picList }) => {
           variant="subtitle2"
           component="h3"
         >
-          可能係全港最大o既文宣Library
+          可能係全港最大嘅文宣Library
         </Typography>
       </div>
 
