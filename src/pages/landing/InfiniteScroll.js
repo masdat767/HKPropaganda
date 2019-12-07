@@ -5,7 +5,10 @@ import debounce from "lodash/debounce"
 
 import { CircularProgress } from "@material-ui/core"
 
+import ToGameBtn from "../../components/Btn/ToGameBtn"
 import HorizotalList from "./HorizotalList"
+
+import "./InfiniteScroll.css"
 
 const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
   const [firstList, setFirstList] = useState([])
@@ -79,16 +82,10 @@ const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
   const renderProgress = () => {
     if (!hasMoreImage) {
       return (
-        <div
-          style={{
-            border: "1px solid #ccc",
-            borderRadius: "6px",
-            padding: "5px 12px",
-            background: "#fafad2",
-            textAlign: "center",
-          }}
-        >
-          暫時冇更多文宣
+        <div className="no-more-image">
+          <p className="no-more-image__text">哎呀, 唔夠tag呀!</p>
+          <p className="no-more-image__text">幫幫手玩下個game加tag啦!</p>
+          <ToGameBtn />
         </div>
       )
     }
