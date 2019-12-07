@@ -7,7 +7,7 @@ export const initialState = {
     tags: false,
     propaganda: false,
   },
-  isImgLoading: false,
+  isImgLoading: true,
   currentIdx: 0,
   score: 0,
   shouldShowDialog: false,
