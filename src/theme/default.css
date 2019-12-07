@@ -1,9 +1,15 @@
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC");
+
 * {
-    --alignmentXL: 48px;
-    --alignmentL: 24px;
-    --alignmentM: 16px;
-    --alignmentSM: 16px;
-    --alignmentS: 8px;
-    --alignmentXS: 4px;
-    --alignmentXXS: 2px;
+  font-family: "Noto Sans TC", sans-serif !important;
+}
+
+* {
+  --alignmentXL: 48px;
+  --alignmentL: 24px;
+  --alignmentM: 16px;
+  --alignmentSM: 16px;
+  --alignmentS: 8px;
+  --alignmentXS: 4px;
+  --alignmentXXS: 2px;
 }

@@ -135,7 +135,7 @@ const SearchBar = ({
             <Chip
               className={styles.selectedChip}
               key={chip.id}
-              label={chip.name}
+              label={chip.name.toUpperCase()}
               onDelete={() => removeChip(chip.id)}
             />
           ))}
@@ -154,7 +154,7 @@ const SearchBar = ({
             className={searchBtnClassName}
             onClick={() => onSearch(inputValue, selectedChips)}
           >
-            <SearchIcon />
+            <SearchIcon style={{ verticalAlign: "bottom" }} />
             揾文宣
           </button>
 
@@ -163,14 +163,14 @@ const SearchBar = ({
       </div>
 
       <div className={styles.hotTagWrapper}>
-        <div className={styles.hotTagText}>熱門字眼:</div>
+        <div className={styles.hotTagText}>熱門字眼：</div>
         <div className={styles.hotTagChipWrapper}>
           {availableTags.slice(0, 5).map(tag => {
             return (
               <Chip
                 className={styles.hotTag}
                 key={tag.id}
-                label={tag.name}
+                label={tag.name.toUpperCase()}
                 onClick={() => addChip(tag)}
               />
             )

@@ -1,16 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC');
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC");
 
 * {
-    font-family: 'Noto Sans TC', sans-serif;
+  font-family: "Noto Sans TC", sans-serif !important;
 }
 
 .banner {
-    position: relative
+  position: relative;
 }
 
 .bannerSearch {
-    position: absolute;
-    top: 0;
-    left: 0;
-    
+  position: absolute;
+  top: 0;
+  left: 0;
 }

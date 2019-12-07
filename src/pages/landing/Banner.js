@@ -53,11 +53,11 @@ const Banner = ({ tagList, updateSearch, picList }) => {
 
         <div className={styles.toGameBtnGroup}>
           <Typography variant="subtitle2" component="p">
-            你知道嗎?
+            你知道嗎？
           </Typography>
           <Typography variant="subtitle2" component="p">
-            每日平均有600張文宣出世, 每張文宣都要落tag先會喺度出現,
-            快d幫手一齊落tag啦!
+            平均每天有 600 張文宣出世，每一張文宣都要落 Tag
+            先知會喺度出現，快啲幫手一齊 Tag 啦！
           </Typography>
           <ToGameBtn />
           {/* <Typography

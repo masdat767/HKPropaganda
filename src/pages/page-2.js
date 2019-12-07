@@ -3,6 +3,8 @@ import { Link } from "gatsby"
 
 import { Layout, SEO } from "../components"
 
+import "../theme/default.css"
+
 const SecondPage = () => (
   <Layout>
     <SEO title="Page two" />

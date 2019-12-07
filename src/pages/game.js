@@ -2,6 +2,8 @@ import React from "react"
 import { Router } from "@reach/router"
 import { Container, Status, Game, Login, PrivateRoute } from "../components"
 
+import "../theme/default.css"
+
 const GamePage = () => {
   return (
     <Container>
