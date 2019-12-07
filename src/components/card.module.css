@@ -41,7 +41,6 @@
 .downloadIcon {
   color: slategray;
   border-radius: 5px;
-  margin: 0 10px 0 0;
 }
 
 .downloadIcon:hover {
@@ -51,6 +50,7 @@
 .shareIcon {
   border-radius: 5px;
   color: #2d9311;
+  margin-left: 10px;
 }
 
 .shareIcon:hover {

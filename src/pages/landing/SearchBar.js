@@ -8,7 +8,7 @@ import useOutsideClick from "../../customHooks/useOutsideClick"
 
 const SearchBar = ({
   placeholder = "輸入標籤搵相關文宣",
-  tagList,
+  tagList = [],
   onSearch,
 }) => {
   const [selectedChips, setSelectedChips] = useState([])

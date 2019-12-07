@@ -137,6 +137,18 @@ const Card = ({ className, CardUrl, CardText, imgData }) => {
     setShouldShowImageInfo(false)
   }
 
+  const handleShareImage = event => {
+    event.stopPropagation()
+
+    if (navigator.share) {
+      navigator
+        .share({
+          url: imgSrcOriginal,
+        })
+        .catch(console.error)
+    }
+  }
+
   return (
     <div
       onMouseEnter={handleImageMouseEnter}
@@ -189,7 +201,12 @@ const Card = ({ className, CardUrl, CardText, imgData }) => {
                 >
                   <DownloadIcon className={styles.downloadIcon} />
                 </a>
-                <ShareIcon className={styles.shareIcon} />
+                {navigator.share && (
+                  <ShareIcon
+                    className={styles.shareIcon}
+                    onClick={handleShareImage}
+                  />
+                )}
               </div>
             </div>
           </div>
