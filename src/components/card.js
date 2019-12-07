@@ -37,6 +37,18 @@ function SimpleDialog(props) {
     setIsReportFormOpen(true)
   }
 
+  const handleShareImage = event => {
+    event.stopPropagation()
+
+    if (navigator.share) {
+      navigator
+        .share({
+          url: imgSrcOriginal,
+        })
+        .catch(console.error)
+    }
+  }
+
   return (
     <Dialog
       className={`SimpleDialog ${styles.Dialog}`}
@@ -58,20 +70,29 @@ function SimpleDialog(props) {
             href={imgSrcOriginal}
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              textDecoration: "blink",
-            }}
+            style={{ display: "flex" }}
             download
+            onClick={event => event.stopPropagation()}
           >
-            <Button color="primary" size="large">
-              下載
-            </Button>
+            <DownloadIcon className={styles.downloadIcon} />
           </a>
-          <Tooltip title="提出問題" aria-label="report" placement="top">
+          <Tooltip
+            title="提出問題"
+            aria-label="report"
+            placement="top"
+            style={{ display: "flex" }}
+          >
             <Box className={styles.reportWrapper} onClick={reportImage}>
               <FlagIcon className={styles.flagIcon} />
             </Box>
           </Tooltip>
+
+          {navigator.share && (
+            <ShareIcon
+              className={styles.shareIcon}
+              onClick={handleShareImage}
+            />
+          )}
         </Grid>
 
         <div className={styles.imageHolder}>
