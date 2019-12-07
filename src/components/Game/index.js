@@ -53,7 +53,7 @@ const Game = () => {
   const {
     selectedTags,
     propagandaData,
-    currentIndex,
+    currentIdx,
     loadingStatus,
     isImgLoading,
     customTagList,
@@ -68,7 +68,7 @@ const Game = () => {
   const classes = useStyles({ isImgLoading })
   const deviceDimensionsRef = useRef({ height: 0, width: 0 })
 
-  const currentPropagandaData = propagandaData[currentIndex] || {}
+  const currentPropagandaData = propagandaData[currentIdx] || {}
   const imageId = get(currentPropagandaData, "id")
   const imageSrc = get(currentPropagandaData, "files.0.path", "#")
   const tags = get(currentPropagandaData, "tags")
@@ -76,9 +76,8 @@ const Game = () => {
   const isNextBtnDisabled =
     Object.keys(selectedTags).every(tag => !selectedTags[tag]) &&
     customTagList.length === 0
-  // const isBrowserView = deviceDimensionsRef.current.width > 600
 
-  const fetchPropagandaData = (shouldShowLoader = true) => {
+  const fetchPropagandaData = ({ shouldShowLoader = true }) => {
     dispatch({ type: "FETCH_PROPAGANDA", payload: { shouldShowLoader } })
 
     getGame().then(response => {
@@ -96,11 +95,11 @@ const Game = () => {
 
   const checkRefetchPropagandaData = () => {
     // refetch when user loads the 8th image
-    if (propagandaData.length - currentIndex < 5) {
-      fetchPropagandaData(false)
+    if (propagandaData.length - currentIdx < 5) {
+      fetchPropagandaData({ shouldShowLoader: false })
     }
 
-    if (currentIndex % 10 === 9) {
+    if (currentIdx % 10 === 9) {
       dispatch({ type: "OPEN_DIALOG" })
     }
   }
@@ -138,16 +137,30 @@ const Game = () => {
     }
   }
 
+  const preloadImg = (data, idx) => {
+    const nextPropagandaData = data[idx + 1] || {}
+    const nextImageSrc = get(nextPropagandaData, "files.0.path", "#")
+
+    new Image().src = getOptimizedSizingImgUrl(
+      deviceDimensionsRef.current.width,
+      nextImageSrc
+    )
+  }
+
   useEffect(() => {
-    fetchTags()
-    fetchPropagandaData(true)
     updateDeviceDimensionInfo()
+    fetchTags()
+    fetchPropagandaData({ shouldShowLoader: true })
     window.addEventListener("resize", updateDeviceDimensionInfo)
 
     return () => {
       window.removeEventListener("resize", updateDeviceDimensionInfo)
     }
   }, [])
+
+  useEffect(() => {
+    preloadImg(propagandaData, currentIdx)
+  }, [propagandaData, currentIdx])
 
   return (
     <Box className={classes.box}>
@@ -173,7 +186,7 @@ const Game = () => {
             ) : (
               <Fragment>
                 <ScoreInfo
-                  currentIndex={currentIndex}
+                  currentIdx={currentIdx}
                   score={score}
                   isPepeSmiling={isPepeSmiling}
                 />
@@ -198,7 +211,7 @@ const Game = () => {
               {isImgLoading && <Loader />}
               <CardMedia
                 className={classes.media}
-                image={getOptimizedSizingImgUrl(
+                src={getOptimizedSizingImgUrl(
                   deviceDimensionsRef.current.width,
                   imageSrc
                 )}
@@ -206,6 +219,15 @@ const Game = () => {
                 component="img"
                 onLoad={() => dispatch({ type: "IMAGE_ON_LOAD" })}
               />
+              {/* <CardMedia
+                style={{ display: "none" }}
+                src={getOptimizedSizingImgUrl(
+                  deviceDimensionsRef.current.width,
+                  nextImageSrc
+                )}
+                alt="preload"
+                component="img"
+              /> */}
             </div>
           </Container>
 
@@ -213,7 +235,7 @@ const Game = () => {
             {isBrowserView && (
               <div>
                 <ScoreInfo
-                  currentIndex={currentIndex}
+                  currentIdx={currentIdx}
                   score={score}
                   isPepeSmiling={isPepeSmiling}
                 />
@@ -277,7 +299,7 @@ const Game = () => {
       {shouldShowDialog && (
         <Dialog
           closeDialog={() => dispatch({ type: "CLOSE_DIALOG" })}
-          numOfTags={currentIndex}
+          numOfTags={currentIdx}
         />
       )}
     </Box>

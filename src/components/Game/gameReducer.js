@@ -8,7 +8,7 @@ export const initialState = {
     propaganda: false,
   },
   isImgLoading: false,
-  currentIndex: 0,
+  currentIdx: 0,
   score: 0,
   shouldShowDialog: false,
   shouldShowHelpText: false,
@@ -50,7 +50,7 @@ export const reducer = (state, action) => {
         ...state,
         selectedTags: [],
         customTagList: [],
-        currentIndex: state.currentIndex + 1,
+        currentIdx: state.currentIdx + 1,
         isImgLoading: true,
       }
     }

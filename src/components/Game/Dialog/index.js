@@ -89,6 +89,7 @@ export default function CustomizedDialogs({ closeDialog, numOfTags }) {
   return (
     <div>
       <Dialog
+        style={{ margin: "0 0 150px 0" }}
         onClose={closeDialog}
         aria-labelledby="game-continue-dialog"
         open={true}
