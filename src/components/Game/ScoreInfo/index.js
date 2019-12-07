@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography"
 
 import "./index.css"
 
-const ScoreInfo = ({ currentIndex, score, isPepeSmiling }) => {
+const ScoreInfo = ({ currentIdx, score, isPepeSmiling }) => {
   const bgClassName = isPepeSmiling
     ? "gameScoreBg gameScoreBg--smile"
     : "gameScoreBg"
@@ -13,7 +13,7 @@ const ScoreInfo = ({ currentIndex, score, isPepeSmiling }) => {
   return (
     <Box className="ScoreInfo">
       <Typography className="title" variant="h4" component="h1" align="center">
-        第 {currentIndex + 1} 張文宣
+        第 {currentIdx + 1} 張文宣
       </Typography>
 
       <Box className={bgClassName}>
