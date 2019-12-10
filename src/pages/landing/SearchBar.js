@@ -154,8 +154,8 @@ const SearchBar = ({
             className={searchBtnClassName}
             onClick={() => onSearch(inputValue, selectedChips)}
           >
-            <SearchIcon style={{ verticalAlign: "bottom" }} />
-            揾文宣
+            <SearchIcon />
+            <span>揾文宣</span>
           </button>
 
           {renderSuggestions()}

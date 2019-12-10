@@ -11,7 +11,13 @@
 }
 
 .selectedChip {
+  background: white !important;
+  border: 1px solid #ccc !important;
   margin: 0px 5px 8px 0;
+}
+
+.selectedChip:hover {
+  background: #ddd !important;
 }
 
 .searchInputWrapper {

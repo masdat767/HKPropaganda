@@ -16,11 +16,7 @@ const ToGameBtn = ({ tagCount = 0 }) => {
 
         <p className={styles.mShow}>立即開始tag文宣</p>
       </button>
-      <p className={styles.countText}>
-        仲有 {"{"}
-        {tagCount}
-        {"}"} 張文宣等緊你 Tag！
-      </p>
+      <p className={styles.countText}>仲有 {tagCount} 張文宣等緊你 Tag！</p>
     </div>
   )
 }

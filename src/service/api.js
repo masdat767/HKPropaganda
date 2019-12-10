@@ -36,6 +36,12 @@ export const getMedia = ({ id = 1 }) => {
   })
 }
 
+export const getMediaPendingCount = () => {
+  return axios.get("/medias/pending-count", axiosSetting).then(response => {
+    return response.data
+  })
+}
+
 export const searchMedia = (payload = demoPayload) => {
   return axios.post("/medias", payload)
 }

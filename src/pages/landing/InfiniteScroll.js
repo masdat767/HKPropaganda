@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react"
 import PropTypes from "prop-types"
 import get from "lodash/get"
 import debounce from "lodash/debounce"
-
 import { CircularProgress } from "@material-ui/core"
+
+import { getMediaPendingCount } from "../../service/api"
 
 import ToGameBtn from "../../components/Btn/ToGameBtn"
 import HorizotalList from "./HorizotalList"
@@ -16,6 +17,7 @@ const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
   const [thirdList, setThirdList] = useState([])
   const [isLoading, setLoading] = useState(false)
   const [isLargeScreen, setIsLargeScreen] = useState(false)
+  const [mediaPendingCount, setMediaPendingCount] = useState(0)
 
   const firstRef = useRef(null)
   const secondRef = useRef(null)
@@ -79,13 +81,19 @@ const InfiniteScroll = ({ picList, updateScroll, hasMoreImage }, ref) => {
     setLoading(false)
   }, [picList])
 
+  useEffect(() => {
+    getMediaPendingCount().then(response => {
+      setMediaPendingCount(response.pending_medias_count)
+    })
+  }, [])
+
   const renderProgress = () => {
     if (!hasMoreImage) {
       return (
         <div className="no-more-image">
           <p className="no-more-image__text">哎呀, 唔夠tag呀!</p>
           <p className="no-more-image__text">幫幫手玩下個game加tag啦!</p>
-          <ToGameBtn />
+          <ToGameBtn tagCount={mediaPendingCount} />
         </div>
       )
     }
